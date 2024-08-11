@@ -86,17 +86,24 @@ $(NAME):		$(OBJ)
 				@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS) $(LINKS)
 				@echo "Minishell ready."
 
-clean:
-				@echo "Removing .o object files..."
+clean_minishell:
+				@echo "Removing Minishell object files..."
 				@rm -rf $(OBJ_DIR)
+
+clean_libft:
 				@make clean -C $(LIBFT_DIR)
 
-fclean:			clean
+clean:			clean_minishell clean_libft
+
+fclean_minishell: clean_minishell
 				@echo "Removing Minishell..."
 				@rm -f $(NAME)
+
+fclean:			fclean_minishell
 				@make fclean -C $(LIBFT_DIR)
 
 re:				fclean all
 
 # Phony targets represent actions not files
 .PHONY: all clean fclean re
+

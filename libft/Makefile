@@ -51,12 +51,12 @@ pre-compile-message:
 	@echo "Compiling libft..."
 
 clean:
-	@echo "Removing object files..."
-	$(RM) $(OBJ_DIR)*.o
+	@echo "Removing libft object files..."
+	@$(RM) $(OBJ_DIR)*.o
 
 fclean: clean
 	@echo "Removing $(NAME)..."
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 

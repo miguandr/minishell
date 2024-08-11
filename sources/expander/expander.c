@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:54:25 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/02 16:49:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/11 16:57:09 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,13 +316,12 @@ char	*expand_str(t_mshell *data, char *str, bool *flag)
 {
 	if (ft_strchr(str, '\"') != NULL && str[0] != '\'')
 	{
-		//printf("no entreeeees 2 \n");
 		return (expand_double_quote(data, str));
 	}
 	else if (ft_strchr(str, '$') != NULL)
 		return (expand_variable_helper(data, str, flag));
 	else if (ft_strchr(str, '\'') != NULL)
-	{	
+	{
 		//printf("no entreeeees 1 \n");
 		return (remove_single_quote(str, data));
 	}
@@ -334,7 +333,7 @@ void	expander(t_mshell *data, char **str, bool *flag)
 	char	*expanded_str;
 	int		i;
 
-	
+
 	i = 0;
 	while (str[i] != NULL)
 	{
