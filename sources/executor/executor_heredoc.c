@@ -6,57 +6,42 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:27:45 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/12 19:02:58 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:44:13 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header_mig.h"
 
-/*static char	*expand_heredoc(t_mshell *data, char *str)
-{
-	char	*expanded_str;
-	int		expanded_i;
-
-	if (ft_strchr(str, '$') != NULL)
-	{
-		expanded_str = expand_variable(data, str, &expanded_i);
-		if (expanded_str)
-		{
-			printf("%s\n", expanded_str);
-			return (expanded_str);
-		}
-	}
-	return (str);
-}*/
-
-static char	*expand_variable_2(t_mshell *data, char *str, int *i)
+static int	exp_var_hd(t_mshell *data, char *str, char *result, int result_len)
 {
 	char	*var_name;
 	char	*var_value;
+	int		var_name_len;
+	int		var_value_len;
 
+	var_value_len = 0;
 	var_name = get_variable_name(str + 1, data);
+	var_name_len = ft_strlen(var_name);
 	var_value = get_variable_value(data, var_name);
-	*i += ft_strlen(var_name);
-	free(var_name);
 	if (var_value)
-		return (var_value);
-	else
-		return (NULL);
+	{
+		var_value_len = ft_strlen(var_value);
+		ft_strcpy(result + result_len, var_value);
+		result_len += var_value_len;
+		free(var_value);
+	}
+	free(var_name);
+	return (var_name_len + 1);
 }
 
-// Function to handle variable expansion
-
-char *expand_heredoc(t_mshell *data, char *str)
+static char	*expand_heredoc(t_mshell *data, char *str)
 {
-	char *result;
-	char *temp;
-	int result_len;
-	int i;
-	int str_len;
-	int	temp_len;
+	char	*result;
+	int		result_len;
+	int		i;
+	int		str_len;
 
 	i = 0;
-	temp_len = 0;
 	result_len = 0;
 	str_len = ft_strlen(str);
 	result = ft_calloc(MAX_EXP_SIZE, sizeof(char));
@@ -66,15 +51,8 @@ char *expand_heredoc(t_mshell *data, char *str)
 	{
 		if (str[i] == '$')
 		{
-			temp = expand_variable_2(data, str + i, &i);
-			if (temp)
-			{
-				temp_len = ft_strlen(temp);
-				ft_strcpy(result + result_len, temp);
-				result_len += temp_len;
-				free(temp);
-				i++;
-			}
+			i += exp_var_hd(data, str + i, result, result_len);
+			result_len = ft_strlen(result);
 		}
 		else
 			result[result_len++] = str[i++];
@@ -124,7 +102,7 @@ int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redir
 			free(expanded_line);
 			//free(input_line);
 		}
-		//free(input_line);
+		free(input_line);
 	}
 	close(file);
 	return (EXIT_SUCCESS);
