@@ -56,7 +56,7 @@ SRC			=	$(SRC_DIR)/executor/executor.c \
 				$(SRC_DIR)/error/error.c \
 				$(SRC_DIR)/expander/expander_utils.c \
 				$(SRC_DIR)/expander/expander_variables.c \
-				$(SRC_DIR)/expander/expander2.c \
+				$(SRC_DIR)/expander/expander.c \
 				$(SRC_DIR)/utils/enviroment.c \
 				$(SRC_DIR)/utils/free.c \
 				$(SRC_DIR)/utils/init.c \

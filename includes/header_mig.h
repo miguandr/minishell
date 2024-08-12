@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header_mig.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/02 19:42:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/12 16:02:00 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ typedef enum s_tokens
 	LESS,
 	HERE_DOC,
 }					t_tokens;
-
-/*typedef struct s_quotes
-{
-	bool			is_single;
-	bool			is_double;
-}					t_quotes;*/
 
 typedef struct s_lexer
 {
@@ -80,7 +74,7 @@ typedef struct s_parser
 {
 	char			**str;
 	int (*builtins)(t_mshell *, struct s_parser *); // Es un puntero a la funcion builtin que tiene 2 argumentos: Un puntero a t_mshell y Un puntero a t_parser
-	bool            flag;
+	bool			flag;
 	int				num_redirections;
 	char			*hd_file_name;
 	bool			heredoc;
@@ -167,20 +161,18 @@ char				*delete_quotes(char *str, t_mshell *minishell);
 
 void				expander(t_mshell *data, char **str, bool *flag);
 char				*expand_str(t_mshell *data, char *str, bool *flag);
-//char				*handle_inside_quote(t_mshell *data, char *s, int *i,
-//						char *result);
 char				*expand_double_quote(t_mshell *data, char *str);
 /*-Variables-*/
 char				*get_variable_name(const char *str, t_mshell *data);
 char				*get_variable_value(t_mshell *data, char *var_name);
 char				*expand_variable(t_mshell *data, char *str,
 						int *index);
-char				*get_exit_status(t_mshell *data);
 /*-Utils-*/
 char				*remove_single_quote(char *str, t_mshell *data);
-char				*single_quote_helper(char *str, t_mshell *data);
-char				*expand_double_quote_helper(t_mshell *data, char *str);
-char				*expand_variable_helper(t_mshell *data, char *str, bool *flag);
+char				*expand_variable_helper(t_mshell *data, char *str,
+						bool *flag);
+int					append_expanded(t_mshell *data, char *str, int *i,
+						char *result);
 
 /*******EXECUTOR*******/
 
