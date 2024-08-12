@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 14:54:25 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/11 16:57:09 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:33:34 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,8 @@ char	*expand_double_quote(t_mshell *data, char *str)
 }*/
 
 
+
+//old version
 char	*expand_double_quote(t_mshell *data, char *str)
 {
 	char	*result;
@@ -311,6 +313,23 @@ char	*expand_double_quote(t_mshell *data, char *str)
 	result[result_len] = '\0';
 	return (result);
 }
+
+/*new version*/
+/*char	*expand_str(t_mshell *data, char *str, bool *flag)
+{
+	char	*expanded_str;
+
+	expanded_str = NULL;
+	if (ft_strchr(str, '\"') != NULL && str[0] != '\'')
+		expanded_str = expand_double_quote(data, str);
+	else if (ft_strchr(str, '$') != NULL)
+		expanded_str = expand_variable_helper(data, str, flag);
+	else if (ft_strchr(str, '\'') != NULL)
+		expanded_str = remove_single_quote(str, data);
+	else
+		expanded_str = ft_strdup(str);  // Duplicate the string if no expansion needed
+	return expanded_str;  // Caller must free expanded_str
+}*/
 
 char	*expand_str(t_mshell *data, char *str, bool *flag)
 {

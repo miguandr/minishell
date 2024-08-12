@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:26:59 by miguandr          #+#    #+#             */
-/*   Updated: 2024/07/31 00:52:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/12 15:41:15 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*expand_variable(t_mshell *data, char *str, int *index)
 	{
 		var_name = get_variable_name(str + 1, data);
 		var_value = get_variable_value(data, var_name);
-		*index += ft_strlen(var_name) + 1; //estas usando el index en algun lado???
+		*index += ft_strlen(var_name) + 1; //estas usando el index en algun lado??? // si, lo necesito para saber en que posicion queda el index despues de la expansion en caso de que hayan mas strings que no sean expandibles
 		free(var_name);
 		if (var_value)
 			return (var_value);

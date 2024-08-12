@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:27:45 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/06 22:52:18 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/11 17:22:59 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redir
 	char	*input_line;
 	char	*delimiter;
 	int		file;
-	//char	*expanded_line;
+	char	*expanded_line;
 
 	//printf("entro a heredoc");
 	delimiter = commands->redirections->str;
@@ -31,11 +31,11 @@ int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redir
 	// 	close(file);
 	// 	return (handle_error(minishell, 8));
 	// }
-	
-	
+
+
 	//input_line = readline("> ");
-	
-	
+
+
 	while (1)//a;adir expander aca (ver si esta bien el que a;adi) // ver manejo de quotes, supuestamente habria que eliminarlas
 	{
 		input_line = readline("> ");
@@ -48,11 +48,13 @@ int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redir
 		}
 		else
 		{
-			input_line = expand_str(minishell, input_line, 0); //revisar flag
-			ft_putendl_fd(input_line, file); //o deberia ser putstr? ver bien O_APPEND
-			//free(expanded_line);
+			expanded_line = expand_str(minishell, input_line, 0); //revisar flag
+			if (expanded_line)
+				ft_putendl_fd(expanded_line, file); //o deberia ser putstr? ver bien O_APPEND
+			free(expanded_line);
 			//free(input_line);
 		}
+		//free(input_line);
 	}
 	close(file);
 	return (EXIT_SUCCESS);
