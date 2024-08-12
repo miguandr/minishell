@@ -6,12 +6,82 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:27:45 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/11 17:22:59 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:02:58 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header_mig.h"
 
+/*static char	*expand_heredoc(t_mshell *data, char *str)
+{
+	char	*expanded_str;
+	int		expanded_i;
+
+	if (ft_strchr(str, '$') != NULL)
+	{
+		expanded_str = expand_variable(data, str, &expanded_i);
+		if (expanded_str)
+		{
+			printf("%s\n", expanded_str);
+			return (expanded_str);
+		}
+	}
+	return (str);
+}*/
+
+static char	*expand_variable_2(t_mshell *data, char *str, int *i)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = get_variable_name(str + 1, data);
+	var_value = get_variable_value(data, var_name);
+	*i += ft_strlen(var_name);
+	free(var_name);
+	if (var_value)
+		return (var_value);
+	else
+		return (NULL);
+}
+
+// Function to handle variable expansion
+
+char *expand_heredoc(t_mshell *data, char *str)
+{
+	char *result;
+	char *temp;
+	int result_len;
+	int i;
+	int str_len;
+	int	temp_len;
+
+	i = 0;
+	temp_len = 0;
+	result_len = 0;
+	str_len = ft_strlen(str);
+	result = ft_calloc(MAX_EXP_SIZE, sizeof(char));
+	if (!result)
+		handle_error(data, 0);
+	while (i < str_len)
+	{
+		if (str[i] == '$')
+		{
+			temp = expand_variable_2(data, str + i, &i);
+			if (temp)
+			{
+				temp_len = ft_strlen(temp);
+				ft_strcpy(result + result_len, temp);
+				result_len += temp_len;
+				free(temp);
+				i++;
+			}
+		}
+		else
+			result[result_len++] = str[i++];
+	}
+	result[result_len] = '\0';
+	return (result);
+}
 
 //crea el contenido de heredoc_content pero no hace nada si dentro hay funciones
 int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redirections, cmd->hd_file_name);
@@ -48,7 +118,7 @@ int	ft_heredoc(t_parser *commands, t_mshell *minishell) //(minishell, cmd->redir
 		}
 		else
 		{
-			expanded_line = expand_str(minishell, input_line, 0); //revisar flag
+			expanded_line = expand_heredoc(minishell, input_line); //revisar flag
 			if (expanded_line)
 				ft_putendl_fd(expanded_line, file); //o deberia ser putstr? ver bien O_APPEND
 			free(expanded_line);
