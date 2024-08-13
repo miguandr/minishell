@@ -61,7 +61,7 @@ int	mini_exit(t_mshell *minishell, t_parser *commands)
 		minishell->exit_code = 0;
 	else if (is_num(commands->str[1]) && commands->str[2]) //si hay varios argumentos --> error
 	{
-		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO); //falta el exit code
 		return (EXIT_FAILURE); //no libera la memoria yha que la ejecucion del programa no deberia terminar, tiene que dar la posibilidad de ingresar otro argumento
 	}
 	else //si solo hay un argumento --> ok

@@ -6,29 +6,23 @@
 
 ✅ (tener en cuenta) exit    exit 255   retona el error 255. a partir de 256 el contador se reinicia en 0
 
-
-⚠️ export '': ver que error tira (deberia ser minishell: export: ` ': not a valid identifier ????)
-⚠️ cd '': no tiene que hacer nada, ni tirar error ni nada.
-⚠️ unset " " && unset ' ' && unset ''  && unset "": chequear si el bash del campus tira error (en el nuestro no)
-⚠️ exit '': chequear si el bash del campus sale o no sale y si tira error (en el nuestro no se sale y no tira error)
-⚠️ exit " " && exit ' ': chequear si el bash del campus sale o no sale (en el nuestro no se sale)
-⚠️ exit hello: chequear si el bash del campus sale o no sale (en el nuestro no se sale)
-⚠️ chequear si despues de testear la linea de arriba, el terminal imprime una \n
-
+✅ export '':     minishell: export: ` ': not a valid identifier
+✅ unset " " && unset ' ' && unset ''  && unset "": no hace nada
+✅ exit hello: exit: hello: numeric argument required     y se sale
+✅ chequear si despues de testear la linea de arriba, el terminal imprime una \n  (no)
 ⚠️ testear expr $? + $?. Preguntar a alguien como lo hizo
 
 ⚠️ signals
 	ctrl+C: ^C deberia aparecerme la signal ingresada en la terminal??
 	ctrl+D: depediendo de la version lo imprime en nueva linea o no
 
-✅ unset "": no deberia salir nada (no se que cambie pero ahora funciona. elijo creer)
-❌ cd "": no deberia salir nada     /      minishell: cd: : No such file or directory
-❌ exit "": bash: exit: : numeric argument required        // ver como hacer, solo se me ocurre crear mas flags indicando que habia "" o ''
+✅ unset "":         no deberia salir nada (no se que cambie pero ahora funciona. elijo creer)
+✅ cd "" & cd '':         no deberia salir nada
+❌ cd " " & cd ' ':         bash: cd:  : No such file or directory
+❌ exit "" & exit '' & exit " " && exit ' ':            bash: exit: : numeric argument required       // el nuestro no tira error
+
 
 ✅'$USER' (o cualquier env variable) con single_qoute no debe expandir
-
-⚠️ Nos quedamos en single quotes
-
 ✅ Expander: tiene que evitar expandir cuando es single_quote
 ✅ -minishell> echo ' hola $HOME  '
 ✅ hola $HOME
@@ -53,18 +47,18 @@
 
 
 general errors to check que tuvieron en la evaluacion
-❌ Gotta fix pipes .. exit 32 | exit w3e2 | exit      prints exit.            /    cada vez que se usa pipes, queda esperando, pausado. sin hacer nada.
-❌ Pipe at the end generate segfaults.      / directamente se traba
+❌ exit 32 | exit w3e2 | exit     exit: w3e2: numeric argument required  y no deberia imprimir exit y NO tiene que salir   // imprime el mensaje de error, pero tambien imprime exit que no deberia. y no sale
+✅ Pipe at the end generate segfaults.
 ✅ echo " 'string' " should print the single quotes. 
 ✅ variables shouldn't extend with single quotes. 
-⚠️ If you unset the PATH, ALL the commands still works, not just the build-ins
+✅ If you unset the PATH, system commands should not work, just the build-ins should still workd
 
 probar en el campus
-⚠️'$HOME'
-		$HOME: command not found
-⚠️ $HOME
+❌'$HOME'
+		$HOME: command not found     // aveces funciona otras no imprime nada. en bash siempre funciona
+✅ $HOME
 		bash: /home/dtorretta: Is a directory
-⚠️ minishell> dvdvfd
+✅ minishell> dvdvfd
 		dvdvfd: command not found
 ⚠️ Execute commands but this time without any path (ls, wc, awk and so forth).
 
@@ -72,5 +66,6 @@ probar en el campus
 
 ejemplos de test:
 /bin/cat < txt.txt > prueba.txt
-echo "hello world" > txt.txt | /bin/cat < txt.txt > prueba.txt
-echo "PRUEBA" > txt.txt | /bin/cat < txt.txt
+echo "hello world" > txt.txt | /bin/cat < txt.txt > prueba.txt              
+echo "PRUEBA" > txt.txt | /bin/cat < txt.txt             // aveces funciona otras no, pero en bash pasa lo mismo
+

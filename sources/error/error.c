@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:19:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/02 20:05:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/13 23:54:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	handle_error2(t_mshell *data, int error, char *str, char **array)
 	return (EXIT_FAILURE);
 }
 
-int	handle_error3(t_mshell *data, int error, char *str)
+int	handle_error3(t_mshell *data, int error, char *str) //puede ser que nunca la usamos????
 {
 	(void)data;
 

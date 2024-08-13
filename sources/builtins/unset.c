@@ -85,7 +85,7 @@ int	mini_unset(t_mshell *minishell, t_parser *commands)
 	char	*unset_var;
 
 	i = -1;
-	if (commands->str[1])
+	if (commands->str[1] && commands->str[1][1])
 	{
 		unset_var = rm_quote(commands->str[1], minishell, 0);
 		if (!unset_var)

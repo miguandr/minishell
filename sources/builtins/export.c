@@ -81,26 +81,44 @@ static int	error_check(t_mshell *minishell, t_parser *commands)
 	int	i;
 
 	i = 0;
+	//printf("check 01\n"); //borrar.
 	if (commands->str[1] && commands->str[2])
+	{
+		//printf("check 02\n"); //borrar.
 		return (handle_error2(minishell, 1, NULL, commands->str));
+	}
 	else if (commands->str[1])
 	{
+		//printf("check 2222\n"); //borrar.
+		//printf("str %d\n", commands->str[1][i]); //borar
 		if (ft_isdigit(commands->str[1][0]) || commands->str[1][0] == '=')
 		{
+			//printf("check 03\n"); //borrar.
 			return (handle_error2(minishell, 2, commands->str[1], NULL)); //sacar las llaves
 		}
-		while (commands->str[1][i] != '=' && commands->str[1][i])
+		while (commands->str[1][i] != '=' /*&& commands->str[1][i]*/)
 		{
+			//printf("check 3333\n"); //borrar.
 			if (!check_valid_identifier(commands->str[1][i]))
 			{
+				//printf("check 444444\n"); //borrar.
 				if (commands->str[1][i] == '!')
+				{
+					//printf("check 04\n"); //borrar.
 					return (handle_error2(minishell, 3, commands->str[1] + i, NULL));
+				}
 				else
+				{
+					//printf("check 05\n"); //borrar
 					return (handle_error2(minishell, 4, commands->str[1], NULL));
+				}
 			}
 			i++;
+			if (!commands->str[1][i])
+				break;
 		}
 	}
+	//printf("check 10\n"); //borrar.
 	return (EXIT_SUCCESS);
 }
 

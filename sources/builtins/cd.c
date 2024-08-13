@@ -163,8 +163,14 @@ int	mini_cd(t_mshell *minishell, t_parser *commands)
 		change_directory(minishell->envp, "OLDPWD=");
 	else
 	{
-		if (cd(commands->str[1], minishell) == EXIT_FAILURE)
+		//printf("check 01\n"); //borrar
+		if (/*commands->str[1][1] && */cd(commands->str[1], minishell) == EXIT_FAILURE) // si le agrego commands->str[1][1] soluciono un probelma pero genero otro
+		{
+			//si en el lexer list se estan usando los bool de is single or is double, entonces agregarlos al parser
+			// si tenfo cd "" el lexer le agregria true?. porque si es true entonces no habria diferenciacion entre cd "" y cd " " y no puedo hacer que actuen diferente
+			//printf("check 02\n"); //borrar
 			return(EXIT_FAILURE);
+		}
 	}	
 	change_pwd(minishell);
 	change_envp(minishell);
