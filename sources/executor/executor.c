@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:36:17 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/07 02:34:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/13 19:11:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,9 @@ int	executor(t_mshell *data)
 	{
 		execute_single_cmd(data->commands, data);
 	}
-	else //(dani's part)
+	else
 	{
 		data->pid = ft_calloc(sizeof(int), data->pipes + 2); //changed
-		//printf("03 token: %d\n", data->commands->redirections->token); //borrar
 		if (!data->pid)
 			return (handle_error(data, 1));
 		execute_pipe_cmd(data);

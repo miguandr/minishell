@@ -159,13 +159,21 @@ int ft_fork(t_mshell *minishell, t_parser *commands, int fd[2], int fd_prev)
 
 	i = 0;
 	if (minishell->reset == 1)
+	{
 		i = 0;
-	else
-		minishell->pid[i] = fork();
+	}
+	// else
+	// {
+	// 	printf("check 03\n"); //borrar
+	// 	minishell->pid[i] = fork();
+	// }
+	minishell->pid[i] = fork();
 	if (minishell->pid[i] < 0)
 			return (handle_error(minishell, 5));
 	else if (minishell->pid[i] == 0)
+	{
 		child_process(minishell, commands, fd, fd_prev);
+	}
 	i++;
 	return(EXIT_SUCCESS);
 }
