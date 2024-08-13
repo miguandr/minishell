@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:31:22 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/05 16:38:56 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/13 23:12:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/header_mig.h"
 
-/*void print_lexer_list(t_lexer *head) {
-    t_lexer *current = head;
-    if(!current){
-        printf("NULL EN LA LEXER LIST\n");
-        return;
-    }
-    while (current != NULL) {
+// static void print_lexer_list(t_lexer *head) //borrar
+// {
+//     t_lexer *current = head;
+//     if(!current){
+//         printf("NULL EN LA LEXER LIST\n");
+//         return;
+//     }
+//     while (current != NULL) {
 
-        printf("Str: %s, Token: %d, Index: %d\n", current->str, current->token, current->i);
-        current = current->next;
-    }
-}
+//         printf("Str: %s, Token: %d, Index: %d\n", current->str, current->token, current->i);
+//         current = current->next;
+//     }
+// }
 
-void print_parser_node(t_parser *node) {
+/*void print_parser_node(t_parser *node) {
     if (node == NULL) {
         return;
     }

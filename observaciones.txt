@@ -67,3 +67,10 @@ probar en el campus
 ⚠️ minishell> dvdvfd
 		dvdvfd: command not found
 ⚠️ Execute commands but this time without any path (ls, wc, awk and so forth).
+
+
+
+ejemplos de test:
+/bin/cat < txt.txt > prueba.txt
+echo "hello world" > txt.txt | /bin/cat < txt.txt > prueba.txt
+echo "PRUEBA" > txt.txt | /bin/cat < txt.txt

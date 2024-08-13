@@ -57,12 +57,13 @@ int ft_less (t_mshell *minishell, char *input)
 
 // void print_lexer_list(t_lexer *head) { //borrar
 //     t_lexer *current = head;
-//     if(!current){
+//     if(!current)
+//     {
 //         printf("NULL EN LA LEXER LIST\n");
 //         return;
 //     }
-//     while (current != NULL) {
-
+//     while (current != NULL) 
+//     {
 //         printf("Str: %s, Token: %d, Index: %d\n", current->str, current->token, current->i);
 //         current = current->next;
 //     }
@@ -71,20 +72,17 @@ int ft_less (t_mshell *minishell, char *input)
 
 int ft_redirections (t_parser *commands, t_mshell *minishell)
 {
-	t_lexer  *temp;
-	//printf("num of red: %d\n", commands->num_redirections); //borrar
-	temp = commands->redirections;
-	//print_lexer_list(temp); //borrar
-	//printf("num of red: %d\n", commands->num_redirections); //borrar
-	while(temp)
+	t_lexer  *head;
+	head = commands->redirections;
+	//print_lexer_list(commands->redirections); //borrar
+	while(commands->redirections)
 	{
 		if(commands->redirections->token == GREAT || commands->redirections->token == GREAT_GREAT)
 		{
-			//printf("ft_great\n"); //borrar
 			if(ft_great(commands, minishell) != 0)
 				return(EXIT_FAILURE);
 		}
-		else if(commands->redirections->token == LESS) //no la puedo probar bien porque no esta funcionando cat
+		else if(commands->redirections->token == LESS)
 		{
 			if(ft_less(minishell, commands->redirections->str))
 				return(EXIT_FAILURE);
@@ -94,41 +92,46 @@ int ft_redirections (t_parser *commands, t_mshell *minishell)
 			if(ft_less(minishell, commands->hd_file_name))
 				return(EXIT_FAILURE);
 		}
-		else
-			return(1);
-		
-		//temp = temp->next;
-		if (temp->next)
-		{
-			printf("hay next\n"); //borrar
-			//temp = temp->next;
-		}
-		else
-		{
-			//printf("no hay next???\n"); //borrar //ATENCION no esta detectando cuando hay mas de una redireccion. entonces ejecuta la misma redireccion una y otra vez si no le pongo el break
-			break; //no entiendo porque es necesario hacer if (temp->next). si no hay, directamnete pasaria a ser null y DEBERIA salir solo del while, pero no pasa
-		}
+		commands->redirections = commands->redirections->next; //le saque los pasos innecesarios, ver si funciona todo bien
+		// if (commands->redirections->next) // /bin/cat < txt.txt > prueba.txt
+		// {
+		// 	printf("hay next\n"); //borrar
+		// 	commands->redirections = commands->redirections->next;
+		// }
+		// else
+		// {
+		// 	printf("no hay next???\n"); //borrar //ATENCION no esta detectando cuando hay mas de una redireccion. entonces ejecuta la misma redireccion una y otra vez si no le pongo el break
+		// 	break;
+		// }
 	}
-	//printf("salio del while\n"); //borrar
+	commands->redirections = head;
 	return(EXIT_SUCCESS);
 }
-
 
 //first executes the redirecction if there are any
 //second executes the builtin if there are any. if not, check is there are
 //any other command like cat, ls, etc.
+//The exit command is necessary as it only affects the child process;
+// it needs to be finished.
 void execute_command(t_mshell *minishell, t_parser *commands)
 {
-	//printf("num_redirections: %d\n", commands->num_redirections); //borrar
 	if (commands->num_redirections) // antes estaba commands->num_redirections
 	{
 		minishell->exit_code = ft_redirections(commands, minishell);
+		//printf("check 01\n"); //borrar
 	}
 	if (commands->builtins)
+	{
+		//printf("check 02\n"); //borrar
 		minishell->exit_code = commands->builtins(minishell, commands);
+	}
 	else if (commands->str[0][0])
+	{
+		//printf("check 03\n"); //borrar
 		minishell->exit_code = find_command(commands, minishell);
-	//printf("previo al exit\n"); //borrar
+		//printf("check 03.2\n"); //borrar  NO LLEGA ACA
+	}
+	//printf("check 04\n"); //borrar
 	exit(minishell->exit_code); //es necesario, este exit es parte del proceso hijo y solo lo afecta a el
 }
 
@@ -155,25 +158,19 @@ int child_process(t_mshell *minishell, t_parser *commands, int fd[2], int fd_pre
 //Forks a child process to execute a command.
 int ft_fork(t_mshell *minishell, t_parser *commands, int fd[2], int fd_prev)
 {
-	static int i;
+	static int i = 0; //no ponerlo en lineas separadas
 
-	i = 0;
+	//i = 0;
 	if (minishell->reset == 1)
 	{
+		minishell->reset = 0;
 		i = 0;
 	}
-	// else
-	// {
-	// 	printf("check 03\n"); //borrar
-	// 	minishell->pid[i] = fork();
-	// }
 	minishell->pid[i] = fork();
 	if (minishell->pid[i] < 0)
-			return (handle_error(minishell, 5));
+		return (handle_error(minishell, 5));
 	else if (minishell->pid[i] == 0)
-	{
 		child_process(minishell, commands, fd, fd_prev);
-	}
 	i++;
 	return(EXIT_SUCCESS);
 }

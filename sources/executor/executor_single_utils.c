@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:50:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/07 02:17:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/13 23:28:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*make_single_str(char **array, t_mshell *data)
 	result[j] = '\0';
 	return (result);
 }
-
 
 char	**normalize_str_array(char **array, t_mshell *data)
 {
@@ -108,22 +107,8 @@ int	find_command(t_parser *cmd, t_mshell *data)
 		free(updated_command);
 		i++;
 	}
-
-	//return (handle_error3(data, 1, cmd->str[0])); //esta bien que resetee?
 	ft_putstr_fd(cmd->str[0], STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
 	ft_free_array	(normalize_str);
 	return (127);
 }
-
-
-
-
-// void	wait_for_child(t_mshell *data, int pid)
-// {
-// 	int	status;
-
-// 	waitpid(pid, &status, 0);
-// 	if (WIFEXITED(status))
-// 		data->exit_code = WEXITSTATUS(status);
-// }

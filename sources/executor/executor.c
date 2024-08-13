@@ -6,60 +6,50 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:36:17 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/13 19:11:01 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/13 23:12:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header_mig.h" //modifica el nombre
 
-/*static t_parser	*call_expander(t_mshell *data, t_parser *cmd)
-{
-	t_lexer	*start;
+// static void print_lexer_list(t_lexer *head) //borrar
+// { 
+//     t_lexer *current = head;
+//     if(!current){
+//         printf("NULL EN LA LEXER LIST\n");
+//         return;
+//     }
+//     while (current != NULL) {
 
-	expander(data, cmd->str);
-	start = cmd->redirections;
-	while (cmd->redirections)
-	{
-		if (cmd->redirections->token != HERE_DOC)
-			cmd->redirections->str = expand_str(data, cmd->redirections->str);
-		cmd->redirections = cmd->redirections->next;
-	}
-	cmd->redirections = start;
-	return (cmd);
-}*/
+//         printf("Str: %s, Token: %d, Index: %d\n", current->str, current->token, current->i);
+//         current = current->next;
+//     }
+// }
 
 static void	check_heredoc(t_mshell *minishell, t_parser *commands)
 {
-	t_parser	*temp;
-	temp = commands;
+	t_lexer	*head;
+	head = commands->redirections;
 
-	//printf("10 token: %d\n", minishell->commands->redirections->token); //borrar
-	while (temp && temp->redirections)//DA SEG FAULT ACA
+	while (commands && commands->redirections)
 	{
-		//printf("11 token: %d\n", minishell->commands->redirections->token); //borrar
-		if (temp->redirections->token == HERE_DOC)
+		if (commands->redirections->token == HERE_DOC)
 		{
-			//printf("11 token: %d\n", minishell->commands->redirections->token); //borrar
-			if (temp->hd_file_name)
-				free(temp->hd_file_name);
-			temp->hd_file_name = generate_name();
-			minishell->exit_code = ft_heredoc(temp, minishell); //si se ejecuta bien exit_code tendra valor 0, esta bien que almacene codigos de exito?
-			temp->heredoc = true; //para que lo usamos
-			//break ; //lo saque
-			//printf("LLEGMAOS\n");
+			if (commands->hd_file_name)
+				free(commands->hd_file_name);
+			commands->hd_file_name = generate_name();
+			minishell->exit_code = ft_heredoc(commands, minishell); //si se ejecuta bien exit_code tendra valor 0, esta bien que almacene codigos de exito?
+			commands->heredoc = true; //para que lo usamos????
 		}
-		if(temp->redirections->next) 
-			temp->redirections = temp->redirections->next; //change. no termino de entender si hacer esto es necesario o no. si no hubiera un next, entonces seria null, entonces deberia salir automaticamente del while loop? pero si no lo agrego falla (por lo menos esto paso en lso demas)
+		if(commands->redirections->next) 
+			commands->redirections = commands->redirections->next;
 		else
 			break;
 	}
-	//printf("12 token: %d\n", minishell->commands->redirections->token); //borrar
-	//printf("fin while loop\n");
+	commands->redirections = head;
 }
 
-
-
-static int	is_main_process_builtin(int (*builtin)(t_mshell *, t_parser *)) //mejor poner todo junto
+static int	is_main_process_builtin(int (*builtin)(t_mshell *, t_parser *)) //agregarlo a la otra funcion
 {
 	return (builtin == mini_cd || builtin == mini_exit
 		|| builtin == mini_export || builtin == mini_unset);
@@ -67,11 +57,9 @@ static int	is_main_process_builtin(int (*builtin)(t_mshell *, t_parser *)) //mej
 
 void	execute_single_cmd(t_parser *cmd, t_mshell *data)
 {
-	//t_parser	*expanded_cmds; no es necesario porque ya se expandio
 	pid_t		pid;
 	int	        status;
 
-	//expanded_cmds = call_expander(data, cmd);
 	if (cmd && cmd->builtins && is_main_process_builtin(cmd->builtins)) //mejor poner todo aca junto
 	{
 		data->exit_code = cmd->builtins(data, cmd);
@@ -81,14 +69,11 @@ void	execute_single_cmd(t_parser *cmd, t_mshell *data)
 	pid = fork();
 	if (pid < 0)
 		handle_error(data, 5);
-	if (pid == 0) //antes else if
+	else if (pid == 0) //antes estaba if
+	{
 		execute_command(data, cmd); //en un mismo comando pueden haber mas de un tipo de redireccion
-		//execute_command(expanded_cmds, data);
-		
-	//wait_childspid(data, (int[]){pid});
-	//wait_for_child(data, pid);
-	
-	waitpid(pid, &status, 0); //lo agregue aca
+	}
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		data->exit_code = WEXITSTATUS(status);
 }
@@ -103,13 +88,11 @@ int	execute_pipe_cmd(t_mshell *minishell)
 	int			fd[2];
 	int			fd_prev;
 	t_parser	*temp_commands;
-	//t_parser	*expanded_cmds; ahora: minishell->commands
 	
 	temp_commands = minishell->commands;
 	fd_prev = STDIN_FILENO;
 	while (temp_commands)
 	{
-		//expanded_cmds = call_expander(minishell, temp_commands);
 		if (temp_commands->next)
 		{
 			if (pipe(fd) == -1)
@@ -121,11 +104,11 @@ int	execute_pipe_cmd(t_mshell *minishell)
 		if (temp_commands->prev)
 			close(fd_prev);
 		fd_prev = get_fd(minishell, fd, temp_commands);
-		
-		if (temp_commands->next)
-			temp_commands = temp_commands->next;
-		else
-			break;
+		temp_commands = temp_commands->next; //le saque los pasos innecesarios, ver si funciona todo bien
+		// if (temp_commands->next) //porque es esto necesario?
+		// 	temp_commands = temp_commands->next;
+		// else
+		// 	break;
 	}
 	wait_childspid(minishell, minishell->pid);
 	return (EXIT_SUCCESS);
@@ -138,13 +121,14 @@ int	executor(t_mshell *data)
 	signal(SIGINT, handle_ctrl_c_child);
 	signal(SIGQUIT, handle_ctrl_backslash);
 	data->in_cmd = 1; //ver si necesitamos esto
+	
 	if (data-> pipes == 0)
 	{
 		execute_single_cmd(data->commands, data);
 	}
 	else
 	{
-		data->pid = ft_calloc(sizeof(int), data->pipes + 2); //changed
+		data->pid = ft_calloc(sizeof(int), data->pipes + 2);
 		if (!data->pid)
 			return (handle_error(data, 1));
 		execute_pipe_cmd(data);
