@@ -97,6 +97,8 @@ static void	built_node(t_parser *commands, t_mshell *minishell, bool *flag)
 		else
 			current = current->next;
 	}
+	//expander(minishell, commands->redirections->str, flag); //necesito una version del expander para esto
+	//expander_redirection(minishell, commands->redirections->str, flag);
 	commands->str = built_args(minishell, 0, flag);
 	commands->builtins = builtins_handler(commands->str[0]);
 }

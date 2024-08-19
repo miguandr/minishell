@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header_mig.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/19 16:55:52 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:07:42 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ char				*delete_quotes(char *str, t_mshell *minishell);
 /*******EXPANDER*******/
 
 void				expander(t_mshell *data, char **str, bool *flag);
+void				expander_redirection(t_mshell *data, char *str, bool *flag);
 char				*expand_str(t_mshell *data, char *str, bool *flag);
 char				*expand_double_quote(t_mshell *data, char *str);
 /*-Variables-*/

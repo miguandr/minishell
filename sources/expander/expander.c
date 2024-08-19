@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/19 19:34:27 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:06:36 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,22 @@ void	expander(t_mshell *data, char **str, bool *flag)
 		}
 		i++;
 	}
+}
+
+void	expander_redirection(t_mshell *data, char *str, bool *flag)
+{
+	char	*expanded_str;
+	//int		i;
+
+	//i = 0;
+	//while (str[i] != NULL)
+	//{
+		expanded_str = expand_str(data, str, flag);
+		if (expanded_str != str)
+		{
+			free(str);
+			str = expanded_str;
+		}
+		//i++;
+	//}
 }

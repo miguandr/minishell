@@ -82,12 +82,13 @@ static int	error_check(t_mshell *minishell, t_parser *commands)
 
 	i = 0;
 	//printf("check 01\n"); //borrar.
-	if (commands->str[1] && commands->str[2])
-	{
-		//printf("check 02\n"); //borrar.
-		return (handle_error2(minishell, 1, NULL, commands->str));
-	}
-	else if (commands->str[1])
+	// if (commands->str[1] && commands->str[2])
+	// {
+	// 	printf("check 02\n"); //borrar.
+	// 	return (handle_error2(minishell, 1, NULL, commands->str));
+	// }
+	// else 
+	if (commands->str[1])
 	{
 		//printf("check 2222\n"); //borrar.
 		//printf("str %d\n", commands->str[1][i]); //borar
@@ -135,6 +136,7 @@ int	mini_export(t_mshell *minishell, t_parser *commands)
 	i = -1;
 	if (error_check(minishell, commands))
 	{
+		//printf("check 01\n");
 		return (EXIT_FAILURE); //wsacar las llaves
 	}
 	if (!commands->str[1] || commands->str[1][0] == '\0')
