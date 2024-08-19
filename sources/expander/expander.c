@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/12 15:56:51 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:34:27 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
 	result[result_len++] = str[(*i)++];
 	while (str[*i] && str[*i] != '\'')
 	{
-		if (str[*i] == '$')
+		if (str[*i] == '$' && str[*i + 1] != '\0')
 			result_len += append_expanded(data, str, i, result + result_len);
 		else
 			result[result_len++] = str[(*i)++];
@@ -39,7 +39,7 @@ static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 	len = ft_strlen(str);
 	while (*i < len && str[*i] != '\"')
 	{
-		if (str[*i] == '$')
+		if (str[*i] == '$' && str[*i + 1] != '\"')
 			result_len += append_expanded(data, str, i, result + result_len);
 		else if (str[*i] == '\'')
 			result_len += handle_sing_quote(data, str, i, result + result_len);
@@ -82,7 +82,7 @@ char	*expand_str(t_mshell *data, char *str, bool *flag)
 {
 	if (ft_strchr(str, '\"') != NULL && str[0] != '\'')
 		return (expand_double_quote(data, str));
-	else if (ft_strchr(str, '$') != NULL)
+	else if (ft_strchr(str, '$') != NULL && ft_strchr(str, '$')[1] != '\0')
 		return (expand_variable_helper(data, str, flag));
 	else if (ft_strchr(str, '\'') != NULL)
 		return (remove_single_quote(str, data));

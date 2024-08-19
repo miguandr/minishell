@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_single_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:50:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/13 23:28:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/19 19:42:59 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,16 @@ int	find_command(t_parser *cmd, t_mshell *data)
 	int		i;
 	char	*updated_command;
 	char	**normalize_str;
+	char	*temp;
 
 	i = 0;
 	normalize_str = normalize_str_array(cmd->str, data); //para que sirve esto? por ejemplo si tengo cat << LIM.
+	temp = ft_strjoin("/bin/", normalize_str[0]);
 	while (data->envp[i]) //revisa si esta path
 	{
 		if (ft_strncmp(data->envp[i], "PATH", 4) == 0)
 		{
-			i = -42; //si lo encuentra i = -42 
+			i = -42; //si lo encuentra i = -42
 			break;
 		}
 		i++;
@@ -88,14 +90,28 @@ int	find_command(t_parser *cmd, t_mshell *data)
 	}
 	if (!access(normalize_str[0], F_OK)) //! --> devuelve 0, significa que el archivo existe
 	{
+		//printf("check BBB\n"); //borrar
 		if (execve(normalize_str[0], normalize_str, data->envp)) //$HOME no es un archivo ejecutable, es un directorio. Así que execve() fallará y entra en el if
 		{
+			//printf("check ccc\n"); //borrar
 			ft_putstr_fd(cmd->str[0], 2);
-			ft_putendl_fd(": is a directoy", 2);
+			ft_putendl_fd(": Is a directory", 2);
 			return (126);
 		}
 	}
-	while (data->paths[i]) ///home/miguandr --> /home/home/miguandr:
+	//
+	if (!access(temp, F_OK)) //! --> devuelve 0, significa que el archivo existe
+	{
+		//printf("check BBB\n"); //borrar
+		if (execve(temp, normalize_str, data->envp)) //$HOME no es un archivo ejecutable, es un directorio. Así que execve() fallará y entra en el if
+		{
+			//printf("check ccc\n"); //borrar
+			ft_putstr_fd(cmd->str[0], 2);
+			ft_putendl_fd(": Is a directory", 2);
+			return (126);
+		}
+	}
+	while (i > 0 && data->paths[i]) ///home/miguandr --> /home/home/miguandr:
 	{
 		updated_command = ft_strjoin(data->paths[i], normalize_str[0]); //--> /home/home/miguandr:
 		if (!access(updated_command, F_OK))

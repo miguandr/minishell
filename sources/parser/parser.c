@@ -45,7 +45,7 @@ static char	**built_args(t_mshell *minishell, int i, bool *flag)
 	int		arguments;
 	//char	**expanded_array;
 	char	**arg_array;
-
+	
 	current = minishell->lexer_list;
 	arguments = count_args(minishell->lexer_list, minishell); //al nodo general le a;ade los token WORD
 	arg_array = calloc ((arguments + 1), sizeof(char*));
