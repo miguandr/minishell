@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 15:39:40 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/12 16:00:32 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:45:22 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 char	*get_variable_name(const char *str, t_mshell *data)
 {

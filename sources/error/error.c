@@ -6,17 +6,14 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:19:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 17:58:33 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:55:44 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
-
-//en todas estas funciones no deberiamos agregar el minishell->exit_code???
 int	handle_error(t_mshell *data, int error)
 {
-	(void)data;
 	const char	*message;
 	const char	*error_message[] = {
 		"memory error: unable to allocate memory\n", //ok 0
@@ -66,24 +63,5 @@ int	handle_error2(t_mshell *data, int error, char *str, char **array)
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		return (2);
 	}
-	//reset_data(data); //reessetea todo y no me guarda el codigo de error
 	return (EXIT_FAILURE);
-}
-
-int	handle_error3(t_mshell *data, int error, char *str) //puede ser que nunca la usamos????
-{
-	(void)data;
-
-	if (error == 1)
-	{
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
-	}
-	if (error == 2)
-	{
-		ft_putstr_fd("minishell: no such file or directory: ", STDERR_FILENO);
-		ft_putendl_fd(str, STDERR_FILENO);
-	}
-	//reset_data(data); //no creo que sea necesario
-	return(EXIT_FAILURE);
 }

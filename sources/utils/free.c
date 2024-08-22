@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 18:42:35 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/14 18:42:35 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:37:48 by miguandr          #+#    #+#             */
+/*   Updated: 2024/08/22 20:37:48 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../includes/minishell.h"
 
 void	free_lexer_list(t_lexer *list)
 {

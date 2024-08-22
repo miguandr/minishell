@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 20:59:12 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/05 16:41:48 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:41:36 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 t_tokens	check_token(int c)
 {

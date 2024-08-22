@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 18:49:16 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/14 18:49:16 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:57:56 by miguandr          #+#    #+#             */
+/*   Updated: 2024/08/22 20:57:56 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
-
+#include "../../includes/minishell.h"
 
 
 //abrimos el archivo output.txt en modo escritura. Si el archivo no existe, se crea.

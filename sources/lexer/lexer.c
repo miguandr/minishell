@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:43:09 by miguandr          #+#    #+#             */
-/*   Updated: 2024/07/26 20:54:11 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:38:29 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../includes/minishell.h"
 
 /**
  * Tokenizes the input arguments of the minishell session.

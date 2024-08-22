@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:31:22 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:33:51 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:37:11 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/header_mig.h"
+#include "../includes/minishell.h"
 
 int	minishell(t_mshell *data)
 {

@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:29:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:31:24 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:37:21 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../includes/minishell.h"
 
 char	**dup_str(char **array)
 {

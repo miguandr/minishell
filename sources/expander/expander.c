@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 15:49:03 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:47:10 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
 {
@@ -29,7 +29,7 @@ static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
 		result[result_len++] = str[(*i)++];
 	return (result_len);
 }
-//NEW, VER EXPANDER_UTILS QUE TAMBIEN PODRIA ESTAR
+
 int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
 {
 	char	*exit_code;
@@ -59,7 +59,6 @@ static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 	{
 		if (str[*i] == '$' && str[*i + 1] == '?')
 			result_len += handle_exit_code(data, str, i, result + result_len);
-		//if (str[*i] == '$' && str[*i + 1] != '\"')
 		if (str[*i] == '$' && (ft_isalnum(str[*i + 1])))
 			result_len += append_expanded(data, str, i, result + result_len);
 		else if (str[*i] == '\'')
@@ -73,12 +72,12 @@ static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 char	*expand_double_quote(t_mshell *data, char *str)
 {
 	char	*result;
-	int		result_len;
+	int		res_len;
 	int		i;
 	int		len;
 
 	i = 0;
-	result_len = 0;
+	res_len = 0;
 	len = ft_strlen(str);
 	result = ft_calloc(MAX_EXP_SIZE, sizeof(char));
 	if (!result)
@@ -88,14 +87,14 @@ char	*expand_double_quote(t_mshell *data, char *str)
 		if (str[i] == '\"')
 		{
 			i++;
-			result_len += handle_double_quote(data, str, &i, result + result_len);
+			res_len += handle_double_quote(data, str, &i, result + res_len);
 			if (str[i] == '\"')
 				i++;
 		}
 		else
-			result[result_len++] = str[i++];
+			result[res_len++] = str[i++];
 	}
-	result[result_len] = '\0';
+	result[res_len] = '\0';
 	return (result);
 }
 

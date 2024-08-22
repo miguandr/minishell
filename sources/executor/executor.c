@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:36:17 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:12:42 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:58:29 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 // static void print_lexer_list(t_lexer *head) //borrar
 // {

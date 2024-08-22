@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:10:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/02 19:01:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/22 20:38:10 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../includes/minishell.h"
 
 /**
  * Sets the current working directory (PWD) or old working directory (OLDPWD).

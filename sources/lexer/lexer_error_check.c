@@ -6,15 +6,16 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:10:27 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 18:35:57 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:43:09 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 static int	check_edges(t_lexer *list)
 {
-	if ((list->token != WORD && list->token != HERE_DOC) || list_last(list)->token != WORD)
+	if ((list->token != WORD && list->token != HERE_DOC)
+		|| list_last(list)->token != WORD)
 		return (0);
 	return (1);
 }

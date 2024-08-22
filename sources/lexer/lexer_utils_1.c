@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 22:44:12 by miguandr          #+#    #+#             */
-/*   Updated: 2024/07/24 22:44:34 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:41:28 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 int	skip_space(char *str, int i)
 {

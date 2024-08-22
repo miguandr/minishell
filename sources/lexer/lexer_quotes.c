@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:19:25 by miguandr          #+#    #+#             */
-/*   Updated: 2024/07/27 21:01:00 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:41:41 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 static int	find_next_quote(char *str, int start, char target)
 {

@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:27:45 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/12 19:44:13 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:57:41 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h"
+#include "../../includes/minishell.h"
 
 static int	exp_var_hd(t_mshell *data, char *str, char *result, int result_len)
 {
