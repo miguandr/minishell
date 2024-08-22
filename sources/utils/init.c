@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 21:10:52 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/05 17:22:16 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:31:43 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ int	init_data(t_mshell *data)
 	data->reset = false;
 	data->pid = NULL;
 	data->pipes = 0;
-	//g_global.stop_heredoc = 0;
-	//g_global.in_cmd = 0;
-	//g_global.in_heredoc = 0;
 	data->in_cmd = 0;
 	handle_envp(data);
 	init_signals();
@@ -41,30 +38,3 @@ int	reset_data(t_mshell *data)
 	minishell(data);
 	return (1);
 }
-
-/*BUILTIN CLEAR... Ver en donde recolocar*/
-/*void	builtins_clear(t_parser **list)
-{
-	t_parser	*current;
-	t_parser	*next;
-	t_lexer		*redirection_temp;
-
-	if (!list || !*list)
-		return ;
-	current = *list;
-	while (current)
-	{
-		next = current->next;
-		redirection_temp = current->redirections;
-		lexer_delete_all(&redirection_temp);
-		current->redirections = redirection_temp;
-		if (current->str)
-			ft_free_array(current->str);
-		if (current->hd_file_name)
-			free(current->hd_file_name);
-		free(current);
-		current = next;
-	}
-	*list = NULL;
-}
-*/

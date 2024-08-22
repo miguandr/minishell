@@ -34,11 +34,11 @@ void	free_string_array(char **array)
 		return ;
 	while (array[i] != NULL)
 	{
-		free(array[i]); // Liberar cada string en el array
-		array[i] = NULL; // Opcional: establecer a NULL después de liberar
+		free(array[i]);
+		array[i] = NULL;
 		++i;
 	}
-	free(array); // Liberar el array de punteros
+	free(array);
 }
 
 void	free_parser_list(t_parser *list)

@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:29:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/07/22 21:31:46 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:31:24 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**dup_str(char **array)
 		if (result[i] == NULL)
 		{
 			ft_free_array(result);
-			return (NULL); // probar return (result) en caso de fallo!!
+			return (NULL);
 		}
 		i++;
 	}

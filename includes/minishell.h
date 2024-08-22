@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header_mig.h                                       :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/19 20:07:42 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/22 20:35:13 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_MIG_H
-# define HEADER_MIG_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "../libft/includes/libft.h"
 # include <fcntl.h>
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 
-# define MAX_EXP_SIZE 1024 // buffer for expanded variables "expander.c"
+# define MAX_EXP_SIZE 1024
 
 /*******STRUCTURES*******/
 typedef enum s_tokens
