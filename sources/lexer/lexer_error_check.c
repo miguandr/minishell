@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:10:27 by miguandr          #+#    #+#             */
-/*   Updated: 2024/06/11 16:24:34 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 18:35:57 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_edges(t_lexer *list)
 {
-	if (list->token != WORD || list_last(list)->token != WORD)
+	if ((list->token != WORD && list->token != HERE_DOC) || list_last(list)->token != WORD)
 		return (0);
 	return (1);
 }

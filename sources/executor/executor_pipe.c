@@ -81,17 +81,17 @@ int ft_redirections (t_parser *commands, t_mshell *minishell)
 	//print_lexer_list(commands->redirections); //borrar
 	while(commands->redirections)
 	{
-		if(commands->redirections->token == GREAT || commands->redirections->token == GREAT_GREAT)
+		if (commands->redirections->token == GREAT || commands->redirections->token == GREAT_GREAT)
 		{
-			if(ft_great(commands, minishell) != 0)
+			if (ft_great(commands, minishell) != 0)
 				return(EXIT_FAILURE);
 		}
-		else if(commands->redirections->token == LESS)
+		else if (commands->redirections->token == LESS)
 		{
 			if(ft_less(minishell, commands->redirections->str))
 				return(EXIT_FAILURE);
 		}
-		else if(commands->redirections->token == HERE_DOC)
+		else if (commands->redirections->token == HERE_DOC)
 		{
 			if(ft_less(minishell, commands->hd_file_name))
 				return(EXIT_FAILURE);

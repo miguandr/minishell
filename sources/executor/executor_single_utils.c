@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:50:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 17:54:53 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 19:46:49 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,13 @@ int	find_command(t_parser *cmd, t_mshell *data)
 	i = 0;
 	normalize_str = normalize_str_array(cmd->str, data); //para que sirve esto? por ejemplo si tengo cat << LIM.
 	temp = ft_strjoin("/bin/", normalize_str[0]);
+
 	while (data->envp[i]) //revisa si esta path
 	{
 		if (ft_strncmp(data->envp[i], "PATH", 4) == 0)
 		{
+			//printf("check BBB\n"); //borrar
+			//temp = NULL;
 			i = -42; //si lo encuentra i = -42
 			break;
 		}
@@ -85,6 +88,7 @@ int	find_command(t_parser *cmd, t_mshell *data)
 	}
 	if(i != -42) //si no lo encuentra
 	{
+		temp = NULL;
 		ft_putendl_fd("minishell: no such file or directory", STDERR_FILENO);
 		return (127);
 	}
