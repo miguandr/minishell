@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:19:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:01:00 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:36:26 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int	handle_error(t_mshell *data, int error)
 {
 	const char	*message;
 	const char	*error_message[] = {
-		"memory error: unable to allocate memory\n", //ok 0
-		"syntax error: unable to find closing quotation\n", //ok 1
-		"syntax error: command line can not begin/end with a token\n", //ok 2
-		"syntax error: too many consecutive tokens\n", //ok 3
-		"syntax error: wrong token handling\n", //ok 4
-		"system error: failed to create child process\n", //ok 5
-		"syntax error: not a valid builtin\n", //NOOOO 6
-		"system error: failed to create pipe\n",  //ok 7
-		"system error: error in fd\n",  //ok 8
+		"memory error: unable to allocate memory\n",
+		"syntax error: unable to find closing quotation\n",
+		"syntax error: command line can not begin/end with a token\n",
+		"syntax error: too many consecutive tokens\n",
+		"syntax error: wrong token handling\n",
+		"system error: failed to create child process\n",
+		"syntax error: not a valid builtin\n",
+		"system error: failed to create pipe\n",
+		"system error: error in fd\n",
 	};
 
 	message = error_message[error];

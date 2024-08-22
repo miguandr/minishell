@@ -15,7 +15,6 @@
 int	mini_pwd(t_mshell *minishell, t_parser *commands)
 {
 	(void)commands;
-
 	ft_putendl_fd(minishell->pwd, 1);
 	return (EXIT_SUCCESS);
 }

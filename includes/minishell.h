@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:27:01 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:50:01 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ typedef struct s_mshell
 	char			**paths;
 	char			**envp;
 	struct s_parser	*commands;
-
 	t_lexer			*lexer_list;
 	char			*pwd;
 	char			*old_pwd;
 	int				pipes;
 	int				*pid;
-	int				in_cmd; // aun por ver!
+	int				in_cmd;
 	int				exit_code;
 	bool			reset;
 }	t_mshell;
@@ -211,7 +210,6 @@ int					ft_heredoc(t_parser *commands, t_mshell *minishell);
 int					handle_error(t_mshell *data, int error);
 int					handle_error2(t_mshell *data, int error, char *str,
 						char **array);
-
 
 /*******MAIN*******/
 int					minishell(t_mshell *data);

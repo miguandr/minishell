@@ -128,7 +128,7 @@ int	mini_cd(t_mshell *minishell, t_parser *commands)
 	{
 		if (cd(commands->str[1], minishell) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-	}	
+	}
 	change_pwd(minishell);
 	return (0);
 }

@@ -26,7 +26,6 @@
  */
 static int	check_coincidence(t_mshell *data, int i, char *name, char *add_var)
 {
-
 	if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
 	{
 		free(data->envp[i]);
