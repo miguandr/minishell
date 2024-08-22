@@ -12,8 +12,6 @@
 
 #include "../../includes/header_mig.h" //modifica el nombre
 
-
-
 static bool	is_quoted(char *str)
 {
 	int	i;
@@ -52,10 +50,6 @@ void handle_redirection(t_lexer *redirections)
 	}
 }
 
-
-
-
-
 //Counts the amount of argument of WORD tokens before the PIPE
 //There should not be more redirections.
 //If a non-WORD token is encountered, handles the error and returns.
@@ -89,7 +83,7 @@ static char	**built_args(t_mshell *minishell, int i, bool *flag)
 	int		arguments;
 	//char	**expanded_array;
 	char	**arg_array;
-	
+
 	current = minishell->lexer_list;
 	arguments = count_args(minishell->lexer_list, minishell); //al nodo general le a;ade los token WORD
 	arg_array = calloc ((arguments + 1), sizeof(char*));

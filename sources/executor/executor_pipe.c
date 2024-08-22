@@ -39,14 +39,18 @@ int ft_great (t_parser *commands, t_mshell *minishell)
 	return(EXIT_SUCCESS);
 }
 
-int ft_less (t_mshell *minishell, char *input)
+int	ft_less (t_mshell *minishell, char *input)
 {
 	int file;
 
 	file = open(input, O_RDONLY);
 	if(file < 0)
-		return(handle_error(minishell, 8));
-	if (dup2(file, STDIN_FILENO) < 0) //file > 0 
+	{
+			minishell->exit_code = 1;
+			reset_data(minishell);
+			return(minishell->exit_code);
+	}
+	if (dup2(file, STDIN_FILENO) < 0) //file > 0
 	{
 		close(file);
 		return (handle_error(minishell, 8));
@@ -62,7 +66,7 @@ int ft_less (t_mshell *minishell, char *input)
 //         printf("NULL EN LA LEXER LIST\n");
 //         return;
 //     }
-//     while (current != NULL) 
+//     while (current != NULL)
 //     {
 //         printf("Str: %s, Token: %d, Index: %d\n", current->str, current->token, current->i);
 //         current = current->next;

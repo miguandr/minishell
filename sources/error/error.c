@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:19:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/13 23:54:01 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/22 17:58:33 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,25 @@ int	handle_error(t_mshell *data, int error)
 	(void)data;
 	const char	*message;
 	const char	*error_message[] = {
-		"memory error: unable to allocate memory\n", //ok
-		"syntax error: unable to find closing quotation\n", //ok
-		"syntax error: command line can not begin/end with a token\n", //ok
-		"syntax error: too many consecutive tokens\n", //ok
-		"syntax error: wrong token handling\n", //ok
-		"system error: failed to create child process\n", //ok
-		"syntax error: not a valid builtin\n", //NOOOO
-		"system error: failed to create pipe\n",  //ok
-		"system error: error in fd\n",  //ok
+		"memory error: unable to allocate memory\n", //ok 0
+		"syntax error: unable to find closing quotation\n", //ok 1
+		"syntax error: command line can not begin/end with a token\n", //ok 2
+		"syntax error: too many consecutive tokens\n", //ok 3
+		"syntax error: wrong token handling\n", //ok 4
+		"system error: failed to create child process\n", //ok 5
+		"syntax error: not a valid builtin\n", //NOOOO 6
+		"system error: failed to create pipe\n",  //ok 7
+		"system error: error in fd\n",  //ok 8
 	};
 
 	message = error_message[error];
-	ft_putstr_fd("minishell: ", 1);
-	ft_putstr_fd(message, 1);
-	data->exit_code = 2;
-	reset_data(data);	
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(message, 2);
+	if (error == 8)
+		data->exit_code = 1;
+	else
+		data->exit_code = 2;
+	reset_data(data);
 	return (EXIT_FAILURE);
 }
 

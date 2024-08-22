@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:50:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/19 19:42:59 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:54:53 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int	find_command(t_parser *cmd, t_mshell *data)
 		free(updated_command);
 		i++;
 	}
+	if(cmd->str[0][0] == '$' && cmd->str[0][1])
+		return (0);
 	ft_putstr_fd(cmd->str[0], STDERR_FILENO);
 	ft_putendl_fd(": command not found", STDERR_FILENO);
 	ft_free_array	(normalize_str);

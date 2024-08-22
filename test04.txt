@@ -19,7 +19,9 @@ Test  17: ✅ echo "$"
 Test  18: ✅ echo '$'
 Test  19: ✅ echo $
 Test  20: ✅ echo $?
-Test  21: ✅ echo $?HELLO
+Test  21: ❌ echo $?HELLO
+mini output = (0)
+bash output = (0HELLO)
 Test  22: ✅ pwd
 Test  23: ✅ pwd oi
 Test  24: ✅ export hello
@@ -64,15 +66,25 @@ Test  60: ✅ grep hi <./test_files/infile_big <./test_files/infile
 Test  61: ✅ echo <"./test_files/infile" "bonjour       42"
 Test  62: ✅ cat <"./test_files/file name with spaces"
 Test  63: ✅ cat <./test_files/infile_big ./test_files/infile
-Test  64: ✅⚠️  cat <"1""2""3""4""5"
+Test  64: ❌ cat <"1""2""3""4""5"
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test  65: ❌ echo <"./test_files/infile" <missing <"./test_files/infile"
+mini output = (minishell: system error: error in fd)
+bash output = ()
 mini exit code = 0
 bash exit code = 1
 mini error = ( command not found command not found command not found command not found)
 bash error = ( No such file or directory)
-Test  66: ✅⚠️  echo <missing <"./test_files/infile" <missing
+Test  66: ❌ echo <missing <"./test_files/infile" <missing
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test  67: ✅ cat <"./test_files/infile"
@@ -84,11 +96,17 @@ Test  72: ✅ echo hi | cat "./test_files/infile"
 Test  73: ✅ cat <"./test_files/infile" | echo hi
 Test  74: ✅ cat <"./test_files/infile" | grep hello
 Test  75: ✅ cat <"./test_files/infile_big" | echo hi
-Test  76: ✅⚠️  cat <missing
+Test  76: ❌ cat <missing
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test  77: ❌ cat <missing | cat
-mini exit code = 1
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
 bash exit code = 0
 mini error = ()
 bash error = ( No such file or directory)
@@ -159,9 +177,7 @@ mini exit code = bye
 bash exit code = 0
 mini error = ()
 bash error = ( Permission denied)
-Test  98: ❌ echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye
-mini exit code = bye
-bash exit code = 0
+Test  98: ✅⚠️  echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye
 mini error = ()
 bash error = ( Permission denied)
 Test  99: ❌ echo hi | echo bye >./test_files/invalid_permission
@@ -203,19 +219,28 @@ mini exit code = 2
 bash exit code = 1
 mini error = ()
 bash error = ( Permission denied)
-Test 104: ✅⚠️  cat <missing >./outfiles/outfile01
+Test 104: ❌ cat <missing >./outfiles/outfile01
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test 105: ❌ cat >./outfiles/outfile01 <missing
 Files ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
 mini outfiles:
+minishell: system error: error in fd
 minishell> exit
 bash outfiles:
 mini exit code =
 bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
-Test 106: ✅⚠️  cat <missing >./test_files/invalid_permission
+Test 106: ❌ cat <missing >./test_files/invalid_permission
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test 107: ❌ cat >./test_files/invalid_permission <missing
@@ -228,6 +253,7 @@ bash error = ( Permission denied)
 Test 108: ❌ cat >./outfiles/outfile01 <missing >./test_files/invalid_permission
 Files ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
 mini outfiles:
+minishell: system error: error in fd
 minishell> exit
 bash outfiles:
 mini exit code =
@@ -274,7 +300,11 @@ mini exit code =
 bash exit code = 1
 mini error = ()
 bash error = ( Permission denied)
-Test 119: ✅⚠️  ls <missing >>./test_files/invalid_permission >>./outfiles/outfile02
+Test 119: ❌ ls <missing >>./test_files/invalid_permission >>./outfiles/outfile02
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test 120: ❌ ls >>./test_files/invalid_permission >>./outfiles/outfile02 <missing
@@ -317,7 +347,11 @@ mini exit code = 0
 bash exit code = 1
 mini error = ( command not found)
 bash error = ( Permission denied)
-Test 130: ✅⚠️  cat <minishell.h>./outfiles/outfile
+Test 130: ❌ cat <minishell.h>./outfiles/outfile
+mini output = (minishell: system error: error in fd)
+bash output = ()
+mini exit code = 2
+bash exit code = 1
 mini error = ()
 bash error = ( No such file or directory)
 Test 131: ❌ cat <minishell.h|ls
@@ -367,4 +401,4 @@ mini exit code = 126
 bash exit code = 127
 mini error = ( Is a directory)
 bash error = ( command not found)
-113/146
+106/146

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:26:59 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 15:51:06 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:20:19 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,40 @@ int	append_expanded(t_mshell *data, char *str, int *i, char *result)
 // 	}
 // }
 
+static char	*add_exit_code(t_mshell *data, char *var_value, char *str, int *i)
+{
+	char	*result;
+	int		len;
+
+	len = ft_strlen(&str[*i]) + ft_strlen(var_value);
+	result = (char *)malloc(len + 1);
+	if (!result)
+		handle_error(data, 0);
+	ft_strcpy(result, var_value);
+	ft_strlcat(result, &str[*i], len + 1);
+	free(var_value);
+	return (result);
+}
+
 char	*expand_variable(t_mshell *data, char *str, int *index)
 {
 	char	*var_name;
 	char	*var_value;
 
-	if (str[1] == '?') //CREAR IF POR SI HAY ALGO DESPUES DEL $?
+	if (str[1] == '?')
 	{
 		var_value = ft_itoa(data->exit_code);
 		*index += 2;
-		return (var_value);
+		if (!str[2])
+			return (var_value);
+		else
+			return (add_exit_code(data, var_value, str, index));
 	}
 	else
 	{
 		var_name = get_variable_name(str + 1, data);
 		var_value = get_variable_value(data, var_name);
-		*index += ft_strlen(var_name) + 1; //estas usando el index en algun lado??? // si, lo necesito para saber en que posicion queda el index despues de la expansion en caso de que hayan mas strings que no sean expandibles
+		*index += ft_strlen(var_name) + 1;
 		free(var_name);
 		if (var_value)
 			return (var_value);
