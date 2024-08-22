@@ -6,7 +6,7 @@
 /*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/19 20:06:36 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:49:03 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
 
 	result_len = 0;
 	result[result_len++] = str[(*i)++];
-	while (str[*i] && str[*i] != '\'')
+	while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
 	{
 		if (str[*i] == '$' && str[*i + 1] != '\0')
 			result_len += append_expanded(data, str, i, result + result_len);
@@ -26,6 +26,24 @@ static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
 			result[result_len++] = str[(*i)++];
 	}
 	if (str[*i] == '\'')
+		result[result_len++] = str[(*i)++];
+	return (result_len);
+}
+//NEW, VER EXPANDER_UTILS QUE TAMBIEN PODRIA ESTAR
+int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
+{
+	char	*exit_code;
+	int		result_len;
+
+	result_len = 0;
+	exit_code = ft_itoa(data->exit_code);
+	while (exit_code[result_len])
+	{
+		result[result_len] = exit_code[result_len];
+		result_len++;
+	}
+	*i += 2;
+	while (str[*i] && ft_isalnum(str[*i]) && ft_isalpha(str[*i]))
 		result[result_len++] = str[(*i)++];
 	return (result_len);
 }
@@ -39,7 +57,10 @@ static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 	len = ft_strlen(str);
 	while (*i < len && str[*i] != '\"')
 	{
-		if (str[*i] == '$' && str[*i + 1] != '\"')
+		if (str[*i] == '$' && str[*i + 1] == '?')
+			result_len += handle_exit_code(data, str, i, result + result_len);
+		//if (str[*i] == '$' && str[*i + 1] != '\"')
+		if (str[*i] == '$' && (ft_isalnum(str[*i + 1])))
 			result_len += append_expanded(data, str, i, result + result_len);
 		else if (str[*i] == '\'')
 			result_len += handle_sing_quote(data, str, i, result + result_len);

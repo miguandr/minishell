@@ -12,6 +12,50 @@
 
 #include "../../includes/header_mig.h" //modifica el nombre
 
+
+
+static bool	is_quoted(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+void handle_redirection(t_lexer *redirections)
+{
+	t_lexer	*current;
+	int		i;
+	int		j;
+
+	current = redirections;
+	while (current)
+	{
+		if (is_quoted(current->str))
+		{
+			i = 0;
+			j = 0;
+			while (current->str[i])
+			{
+				if (current->str[i] != '\"' && current->str[i] != '\'')
+					current->str[j++] = current->str[i];
+				i++;
+			}
+			current->str[j] = '\0';
+		}
+		current = current->next;
+	}
+}
+
+
+
+
+
 //Counts the amount of argument of WORD tokens before the PIPE
 //There should not be more redirections.
 //If a non-WORD token is encountered, handles the error and returns.
@@ -97,8 +141,12 @@ static void	built_node(t_parser *commands, t_mshell *minishell, bool *flag)
 		else
 			current = current->next;
 	}
-	//expander(minishell, commands->redirections->str, flag); //necesito una version del expander para esto
-	//expander_redirection(minishell, commands->redirections->str, flag);
+
+	//new 01
+	if (commands->redirections)
+		handle_redirection(commands->redirections);
+
+
 	commands->str = built_args(minishell, 0, flag);
 	commands->builtins = builtins_handler(commands->str[0]);
 }

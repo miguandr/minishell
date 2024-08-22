@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 20:26:59 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/12 16:04:59 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:51:06 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,55 @@ int	append_expanded(t_mshell *data, char *str, int *i, char *result)
 	}
 	return (var_len);
 }
+// int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
+// {
+// 	char	*exit_code;
+// 	int		result_len;
+
+// 	result_len = 0;
+// 	exit_code = ft_itoa(data->exit_code);
+// 	while (exit_code[result_len])
+// 	{
+// 		result[result_len] = exit_code[result_len];
+// 		result_len++;
+// 	}
+// 	*i += 2;
+// 	while (str[*i] && ft_isalnum(str[*i]) && ft_isalpha(str[*i]))
+// 		result[result_len++] = str[(*i)++];
+// 	return (result_len);
+// }
+
+// char	*expand_variable(t_mshell *data, char *str, int *index)
+// {
+// 	char	*var_name;
+// 	char	*var_value;
+// 	char	temp[MAX_EXP_SIZE];
+
+// 	if (str[1] == '?')
+// 	{
+// 		handle_exit_code(data, str, index, temp);
+// 		var_value = ft_strdup(temp);
+// 		return (var_value);
+// 	}
+// 	else
+// 	{
+// 		var_name = get_variable_name(str + 1, data);
+// 		var_value = get_variable_value(data, var_name);
+// 		*index += ft_strlen(var_name) + 1; //estas usando el index en algun lado??? // si, lo necesito para saber en que posicion queda el index despues de la expansion en caso de que hayan mas strings que no sean expandibles
+// 		free(var_name);
+// 		if (var_value)
+// 			return (var_value);
+// 		else
+// 			return (NULL);
+// 	}
+// }
 
 char	*expand_variable(t_mshell *data, char *str, int *index)
 {
 	char	*var_name;
 	char	*var_value;
 
-	if (str[1] == '?')
+	if (str[1] == '?') //CREAR IF POR SI HAY ALGO DESPUES DEL $?
 	{
 		var_value = ft_itoa(data->exit_code);
 		*index += 2;
