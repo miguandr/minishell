@@ -12,42 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-// Rewrites the PWD and OLDPWD variables in the t_mshell struct
-static void	change_pwd(t_mshell *minishell)
-{
-	char *temp;
-
-	temp = ft_strdup(minishell->pwd);
-	free(minishell->old_pwd);
-	minishell->old_pwd = temp;
-	free(minishell->pwd);
-	minishell->pwd = getcwd(NULL, 0);
-}
-
-// Rewrites the PWD and OLDPWD variables in the envp array.
-static void	change_envp(t_mshell *minishell)
-{
-	int i;
-	char *temp;
-
-	i = 0;
-	while (minishell->envp[i])
-	{
-		if (ft_strncmp(minishell->envp[i], "PWD=", 4) == 0)
-		{
-			temp = ft_strjoin("PWD=", minishell->pwd);
-			free(minishell->envp[i]);
-			minishell->envp[i] = temp;
-		}
-		if (ft_strncmp(minishell->envp[i], "OLDPWD=", 7) == 0)
-		{
-			temp = ft_strjoin("OLDPWD=", minishell->old_pwd);
-			free(minishell->envp[i]);
-			minishell->envp[i] = temp;
-		}
-		i++;
-	}
-}
+int	cd(char *str, t_mshell *minishell);
 
 // Searchs in the env the variable HOME= or OLDPWD=
 // if they dont exist anymore (e.g. because of 'unset'), error.
@@ -100,46 +65,47 @@ static void	ft_previous(t_mshell *minishell)
 	free(prev);
 }
 
+// Function to handle the remaining path after ".."
+static void	ft_handle_remainder(char *str, int i, t_mshell *minishell)
+{
+	char	*temp;
+
+	if (str[i] && str[i] == '/')
+	{
+		change_pwd(minishell);
+		i++;
+		if (str[i])
+		{
+			temp = ft_strdup(str + i);
+			cd(temp, minishell);
+			free(temp);
+		}
+	}
+}
+
+// Main cd function, handles ".." and general directory changes
 int	cd(char *str, t_mshell *minishell)
 {
-	int i;
-	char *temp;
-	
+	int	i;
+
 	i = 0;
-	temp = NULL;
 	if (!ft_strncmp(str, "..", 2))
 	{
 		i += 2;
 		ft_previous(minishell);
-		if (str[i] && str[i] == '/') //puede venir despues path como ..
-			{
-				change_pwd(minishell);
-				change_envp(minishell);
-				i++; //aca etsamos en lo que viene post slash
-				if (str[i])
-				{	
-					temp = ft_strdup(str + i);
-					cd(temp, minishell);					
-				}
-			}
+		ft_handle_remainder(str, i, minishell);
 	}
 	else
 	{
-		if (ft_strncmp(str, ".", 1) && chdir(str) != 0) //volver a empezar
+		if (ft_strncmp(str, ".", 1) && chdir(str) != 0)
 		{
 			ft_putstr_fd("minishell: cd: ", 2);
 			ft_putstr_fd(str, 2);
 			ft_putendl_fd(": No such file or directory", 2);
-			if(temp)
-				free(temp);
 			return (EXIT_FAILURE);
 		}
 	}
-	if(temp)
-		free(temp);
 	return (EXIT_SUCCESS);
-
-
 }
 
 // CD only acepts one additional argument, if there are more, error.
@@ -160,16 +126,9 @@ int	mini_cd(t_mshell *minishell, t_parser *commands)
 		change_directory(minishell->envp, "OLDPWD=");
 	else
 	{
-		//printf("check 01\n"); //borrar
-		if (/*commands->str[1][1] && */cd(commands->str[1], minishell) == EXIT_FAILURE) // si le agrego commands->str[1][1] soluciono un probelma pero genero otro
-		{
-			//si en el lexer list se estan usando los bool de is single or is double, entonces agregarlos al parser
-			// si tenfo cd "" el lexer le agregria true?. porque si es true entonces no habria diferenciacion entre cd "" y cd " " y no puedo hacer que actuen diferente
-			//printf("check 02\n"); //borrar
-			return(EXIT_FAILURE);
-		}
+		if (cd(commands->str[1], minishell) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	}	
 	change_pwd(minishell);
-	change_envp(minishell);
 	return (0);
 }

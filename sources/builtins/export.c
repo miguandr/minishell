@@ -12,46 +12,58 @@
 
 #include "../../includes/minishell.h"
 
-//si se ingresa solo export, sin ninguna otra variable, o si esa variable es "" (solo el caracter nulo) imprime el enviroment normal
-//export VAR1
-//si ejecuto expot solo, ahora voy a tener esa nueva variable
-//export VAR1=1
-//al ejecutar export --> VAR1="1"
-//Esta variable se convierte en parte del entorno del shell y estará disponible para cualquier proceso hijo que se ejecute desde ese shell.
-//export PWD=hola   --> va a actualizar el valor que tiene pwd
-
-//revisar si el comando tiene =. si lo tiene:
-//separar el comando por =
-//buscar la primera parte en el array del envp
-//si lo encuentra, actualizar el valor
-//si no lo encuentra lo a;axde al final
-
-static int	check_coincidence(t_mshell *minishell, int i, char *var_name, char *add_var)
+/**
+ * Checks for a matching environment variable and updates it if found.
+ * @data: Pointer to the minishell data structure.
+ * @i: Index of the current environment variable being checked.
+ * @name: The name of the environment variable to check for.
+ * @add_var: The new value to assign if a match is found.
+ *
+ * This function compares the given name with the environment variable at 
+ * the specified index. If a match is found, the current variable is 
+ * replaced with the new value and the old value is freed. 
+ * Returns 0 if a match is found and updated, otherwise returns 1.
+ */
+static int	check_coincidence(t_mshell *data, int i, char *name, char *add_var)
 {
 
-	if (!ft_strncmp(minishell->envp[i], var_name, ft_strlen(var_name)))
+	if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
 	{
-		free(minishell->envp[i]);
-		minishell->envp[i] = add_var;
+		free(data->envp[i]);
+		data->envp[i] = add_var;
 		return (0);
 	}
 	return (1);
 }
 
-// Verifica si el carácter c es válido como parte de un identificador de variable en Bash
+/**
+ * Verifies if a character is valid as part of a variable identifier in Bash.
+ * @c: The character to validate.
+ *
+ * This function checks whether the given character is a valid part of a 
+ * Bash variable identifier, which includes letters, digits, and underscores.
+ * Returns true if the character is valid, otherwise returns false.
+ */
 static bool	check_valid_identifier(char c)
 {
-	if ((c >= 'a' && c <= 'z') ||
-		(c >= 'A' && c <= 'Z') ||
-		(c >= '0' && c <= '9') ||
-		c == '_' )
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_' )
 		return (true);
 	else
 		return (false);
 }
 
-//elimina todos los quotes
-//si encuentra =, almacena el nombre de la variable sin quotes en var_name
+/**
+ * @str: The input string containing the variable definition.
+ * @var_name: ptr to a string where the variable name will be stored w/o quotes.
+ * @minishell: Pointer to the minishell data structure.
+ *
+ * This function removes quotes from the input string. If an '=' character 
+ * is found, the function extracts the variable name before the '=' and 
+ * removes quotes from it, storing the result in var_name. The entire 
+ * string without quotes is returned.
+ * Returns the processed string without quotes.
+ */
 static char	*check_quotes(char *str, char **var_name, t_mshell *minishell)
 {
 	int		i;
@@ -65,67 +77,60 @@ static char	*check_quotes(char *str, char **var_name, t_mshell *minishell)
 		if (str[i] == '=')
 		{
 			substr = ft_substr(str, 0, i);
-			*var_name = delete_quotes(substr, minishell); //export varname & =
+			*var_name = delete_quotes(substr, minishell);
 			free(substr);
-			return(temp);
+			return (temp);
 		}
 		else
 			i++;
 	}
-	*var_name = delete_quotes(str, minishell); //si no hay = de todos modos hay que darle valor a var name
-	return(temp);
+	*var_name = delete_quotes(str, minishell);
+	return (temp);
 }
 
-static int	error_check(t_mshell *minishell, t_parser *commands)
+/**
+ * This function checks for errors in the export command by validating 
+ * the first character of the argument and ensuring all characters before 
+ * the '=' are valid as part of a variable identifier. If an error is found, 
+ * it calls handle_error2 with the appropriate error code.
+ * Returns EXIT_SUCCESS if no errors are found, otherwise returns EXIT_FAILURE.
+ */
+static int	error_check(t_mshell *data, t_parser *commands)
 {
 	int	i;
 
 	i = 0;
-	//printf("check 01\n"); //borrar.
-	// if (commands->str[1] && commands->str[2])
-	// {
-	// 	printf("check 02\n"); //borrar.
-	// 	return (handle_error2(minishell, 1, NULL, commands->str));
-	// }
-	// else 
 	if (commands->str[1])
 	{
-		//printf("check 2222\n"); //borrar.
-		//printf("str %d\n", commands->str[1][i]); //borar
 		if (ft_isdigit(commands->str[1][0]) || commands->str[1][0] == '=')
+			return (handle_error2(data, 2, commands->str[1], NULL));
+		while (commands->str[1][i] != '=')
 		{
-			//printf("check 03\n"); //borrar.
-			return (handle_error2(minishell, 2, commands->str[1], NULL)); //sacar las llaves
-		}
-		while (commands->str[1][i] != '=' /*&& commands->str[1][i]*/)
-		{
-			//printf("check 3333\n"); //borrar.
 			if (!check_valid_identifier(commands->str[1][i]))
 			{
-				//printf("check 444444\n"); //borrar.
 				if (commands->str[1][i] == '!')
-				{
-					//printf("check 04\n"); //borrar.
-					return (handle_error2(minishell, 3, commands->str[1] + i, NULL));
-				}
+					return (handle_error2(data, 3, commands->str[1] + i, NULL));
 				else
-				{
-					//printf("check 05\n"); //borrar
-					return (handle_error2(minishell, 4, commands->str[1], NULL));
-				}
+					return (handle_error2(data, 4, commands->str[1], NULL));
 			}
 			i++;
 			if (!commands->str[1][i])
-				break;
+				break ;
 		}
 	}
-	//printf("check 10\n"); //borrar.
 	return (EXIT_SUCCESS);
 }
 
-//str[0] --> export
-//str[1] --> nombre de la variable (puede incluir la definicion)
-//str[2] --> error ya que significa que el comando original tenia espacios
+/**
+ * Implements the export command, which sets or updates environment variables.
+ *
+ * It first checks for errors in the variable name or definition. 
+ * If no errors are found, it removes quotes from the variable name and value,
+ * checks if the variable already exists, and updates it if so. 
+ * If the variable does not exist, it creates a new environment array 
+ * with the new variable.
+ * Returns EXIT_SUCCESS on success, or EXIT_FAILURE on failure.
+ */
 int	mini_export(t_mshell *minishell, t_parser *commands)
 {
 	int		i;
@@ -135,19 +140,16 @@ int	mini_export(t_mshell *minishell, t_parser *commands)
 
 	i = -1;
 	if (error_check(minishell, commands))
-	{
-		//printf("check 01\n");
-		return (EXIT_FAILURE); //wsacar las llaves
-	}
+		return (EXIT_FAILURE);
 	if (!commands->str[1] || commands->str[1][0] == '\0')
 		mini_env(minishell, commands);
 	else
 	{
-		add_var = check_quotes(commands->str[1], &var_name, minishell); //elimina los quotes de la variable (lo que esta antes de =)
-		while(minishell->envp[++i])
+		add_var = check_quotes(commands->str[1], &var_name, minishell);
+		while (minishell->envp[++i])
 		{
-			if(check_coincidence(minishell, i, var_name, add_var) == 0)
-				return(EXIT_SUCCESS);
+			if (check_coincidence(minishell, i, var_name, add_var) == 0)
+				return (EXIT_SUCCESS);
 		}
 		temp = new_array(minishell->envp, add_var);
 		free_string_array(minishell->envp);

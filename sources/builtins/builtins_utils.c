@@ -70,3 +70,41 @@ char	*delete_quotes(char *str, t_mshell *minishell)
 	}
 	return (result);
 }
+
+// Rewrites the PWD and OLDPWD variables in the envp array.
+void	change_envp(t_mshell *minishell)
+{
+	int		i;
+	char	*temp;
+
+	i = 0;
+	while (minishell->envp[i])
+	{
+		if (ft_strncmp(minishell->envp[i], "PWD=", 4) == 0)
+		{
+			temp = ft_strjoin("PWD=", minishell->pwd);
+			free(minishell->envp[i]);
+			minishell->envp[i] = temp;
+		}
+		if (ft_strncmp(minishell->envp[i], "OLDPWD=", 7) == 0)
+		{
+			temp = ft_strjoin("OLDPWD=", minishell->old_pwd);
+			free(minishell->envp[i]);
+			minishell->envp[i] = temp;
+		}
+		i++;
+	}
+}
+
+// Rewrites the PWD and OLDPWD variables in the t_mshell struct
+void	change_pwd(t_mshell *minishell)
+{
+	char	*temp;
+
+	temp = ft_strdup(minishell->pwd);
+	free(minishell->old_pwd);
+	minishell->old_pwd = temp;
+	free(minishell->pwd);
+	minishell->pwd = getcwd(NULL, 0);
+	change_envp(minishell);
+}
