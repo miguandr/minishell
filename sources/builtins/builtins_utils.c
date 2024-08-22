@@ -34,7 +34,6 @@ char	**new_array(char **array, char *str)
 	new_array = ft_calloc((i + 2), sizeof(char *));
 	if (!new_array)
 	{
-		handle_error(minishell, 0);
 		return (NULL);
 	}
 	i = 0;

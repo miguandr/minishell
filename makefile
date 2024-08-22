@@ -34,7 +34,6 @@ SRC_SUBDIRS =	$(shell find $(SRC_DIR) -type d)
 SRC			=	$(SRC_DIR)/executor/executor.c \
 				$(SRC_DIR)/executor/executor_heredoc.c \
 				$(SRC_DIR)/executor/executor_pipe.c \
-				$(SRC_DIR)/executor/executor_single.c \
 				$(SRC_DIR)/executor/executor_single_utils.c \
 				$(SRC_DIR)/lexer/lexer.c \
 				$(SRC_DIR)/lexer/lexer_error_check.c \

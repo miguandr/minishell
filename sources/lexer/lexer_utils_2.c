@@ -6,11 +6,11 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 22:19:04 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:38:45 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 21:16:54 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /******BORRAR LUEGO TODO EL ARCHIVO******/
 
