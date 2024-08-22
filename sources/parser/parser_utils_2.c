@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 18:40:59 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/14 18:40:59 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:35:19 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:35:19 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 //It takes an argument str and returns a function pointer that accepts
 //two arguments: t_mshell *minishell and t_parser *commands
@@ -19,7 +19,6 @@
 //partial matches like "echoo", and returns the function pointer for the
 //matched built-in command.
 //If no match is found, returns NULL.
-
 int	(*builtins_handler(char *str))(t_mshell *minishell, t_parser *commands)
 {
 	static void	*builtins_array [7][2] = {
@@ -38,11 +37,6 @@ int	(*builtins_handler(char *str))(t_mshell *minishell, t_parser *commands)
 	{
 		if (str && !ft_strncmp(builtins_array[i][0], str, ft_strlen(str)))
 			return (builtins_array[i][1]);
-		// {
-		// 	// if (ft_strlen(str) != ft_strlen(builtins_array[i][0]))
-		// 	// 	return (handle_error(minishell, 6));
-		// 	return (builtins_array[i][1]);
-		// }
 		else
 			i++;
 	}
@@ -81,8 +75,7 @@ char	*expand_builtin(t_mshell *data, const char *str)
 	free(var_value);
 	if (expanded_str)
 		return (expanded_str);
-	else
-		return (NULL);
+	return (NULL);
 }
 
 //Checks if the first string in the array contains a $.

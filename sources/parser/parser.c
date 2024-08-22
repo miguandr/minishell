@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/07 16:21:41 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/07 16:21:41 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:33:58 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:33:58 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 static bool	is_quoted(char *str)
 {
@@ -25,7 +25,8 @@ static bool	is_quoted(char *str)
 	}
 	return (false);
 }
-void handle_redirection(t_lexer *redirections)
+
+void	handle_redirection(t_lexer *redirections)
 {
 	t_lexer	*current;
 	int		i;
@@ -81,12 +82,11 @@ static char	**built_args(t_mshell *minishell, int i, bool *flag)
 	t_lexer	*current;
 	t_lexer	*next_node;
 	int		arguments;
-	//char	**expanded_array;
 	char	**arg_array;
 
 	current = minishell->lexer_list;
-	arguments = count_args(minishell->lexer_list, minishell); //al nodo general le a;ade los token WORD
-	arg_array = calloc ((arguments + 1), sizeof(char*));
+	arguments = count_args(minishell->lexer_list, minishell);
+	arg_array = calloc ((arguments + 1), sizeof(char *));
 	if (!arg_array)
 	{
 		handle_error (minishell, 0);
@@ -101,9 +101,7 @@ static char	**built_args(t_mshell *minishell, int i, bool *flag)
 		current = next_node;
 	}
 	minishell->lexer_list = current;
-	//minishell->commands->flag = false; //ver
 	expander(minishell, arg_array, flag);
-	//expanded_array = expander_builtins(minishell, arg_array);
 	return (arg_array);
 }
 
@@ -124,7 +122,7 @@ static void	built_node(t_parser *commands, t_mshell *minishell, bool *flag)
 	{
 		if (current->token != WORD)
 		{
-			node = lexer_new_node(strdup(current->next->str), current->token );
+			node = lexer_new_node(strdup(current->next->str), current->token);
 			lexer_add_last(&commands->redirections, node);
 			next_node = current->next->next;
 			ft_delnode(current->next, &minishell->lexer_list);
@@ -135,12 +133,8 @@ static void	built_node(t_parser *commands, t_mshell *minishell, bool *flag)
 		else
 			current = current->next;
 	}
-
-	//new 01
 	if (commands->redirections)
 		handle_redirection(commands->redirections);
-
-
 	commands->str = built_args(minishell, 0, flag);
 	commands->builtins = builtins_handler(commands->str[0]);
 }
@@ -155,7 +149,6 @@ void	parser(t_mshell *minishell)
 
 	current = minishell;
 	minishell->commands = NULL;
-
 	while (current->lexer_list)
 	{
 		node = parser_new_node(minishell);
@@ -166,17 +159,13 @@ void	parser(t_mshell *minishell)
 			minishell->pipes++;
 			ft_delnode(current->lexer_list, &minishell->lexer_list);
 		}
-		//current = minishell; //es necesario??? parece que no
 	}
-
 	/*************FREES**********************/
 	//no hay que ponerlo ahora, es solo a fin de chequeo de leaks
 	//free_parser_list(minishell->commands);
 	// if(minishell->envp)
 	//     free_string_array(minishell->envp);
 	//free(minishell);
-
-
 	//free_string_array MIGUE YA TIENE ESTA FUNCION EN LIBFT
 	//cambiar luego por ft_free_array
 }

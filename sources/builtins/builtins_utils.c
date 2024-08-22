@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 01:22:11 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/26 01:22:11 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:49:02 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:49:02 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 void	print_array(char **array, int i)
 {
@@ -33,9 +33,11 @@ char	**new_array(char **array, char *str)
 		i++;
 	new_array = ft_calloc((i + 2), sizeof(char *));
 	if (!new_array)
-		return (NULL); //a;adir el handle error
+	{
+		handle_error(minishell, 0);
+		return (NULL);
+	}
 	i = 0;
-
 	while (array[i])
 	{
 		new_array[i] = ft_strdup(array[i]);

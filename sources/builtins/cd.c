@@ -2,18 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/06/22 23:16:39 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/22 23:16:39 by marvin           ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/22 20:57:14 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:57:14 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 // Rewrites the PWD and OLDPWD variables in the t_mshell struct
 static void	change_pwd(t_mshell *minishell)

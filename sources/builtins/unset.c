@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 // unset: not enough arguments (revisar si comportamiento de solo unset en el campus)
 // verificar si unset zz/ genera error de unset: not a valid identifier

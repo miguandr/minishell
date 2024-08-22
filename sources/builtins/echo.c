@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 20:10:23 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/14 20:10:23 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:57:31 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:57:31 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 //echo command prints in the standar output the string passed as argument
 //followed by a new line (ft_putendl_fd)

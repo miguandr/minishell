@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 23:00:30 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/14 23:00:30 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:58:10 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:58:10 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 //el bash real hace distincion sobre si despues del exit viene un numero, una letra etc.
 //pero las instrucciones al decir que tenemos que implementar exit sin ninguna opcion, no agregue ese manejo de errores,

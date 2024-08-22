@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/15 01:12:17 by marvin            #+#    #+#             */
-/*   Updated: 2024/06/15 01:12:17 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/22 20:57:58 by dtorrett          #+#    #+#             */
+/*   Updated: 2024/08/22 20:57:58 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 int	mini_pwd(t_mshell *minishell, t_parser *commands)
 {

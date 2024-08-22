@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header_mig.h" //modifica el nombre
+#include "../../includes/minishell.h"
 
 t_parser	*parser_new_node(t_mshell *minishell)
 {
@@ -48,7 +48,7 @@ void	parser_add_last(t_parser **head, t_parser *new)
 //(temp->prev && temp->next) if there is one node before and after
 //(temp->prev == NULL && temp->next) if it is the first node
 //(temp->prev && temp->next == NULL) if it is the last node
-void	ft_delnode(t_lexer *temp, t_lexer  **head)
+void	ft_delnode(t_lexer *temp, t_lexer **head)
 {
 	if (temp->prev == NULL && temp->next == NULL)
 	{
