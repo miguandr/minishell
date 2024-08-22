@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:35:13 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:27:01 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,27 @@ typedef struct s_lexer
 struct	s_parser;
 struct	s_mshell;
 
-// ESTA ES LA ESTRUCTURA FINAL QUE SE PASA AL EXECUTABLE
 typedef struct s_mshell
 {
 	char			*args;
 	char			**paths;
 	char			**envp;
 	struct s_parser	*commands;
-		// aca agrego para cada nodo del parser las redirecciones/builtins/str
+
 	t_lexer			*lexer_list;
 	char			*pwd;
 	char			*old_pwd;
 	int				pipes;
 	int				*pid;
-	int				in_cmd;// nuevo (creamos para señalar que hay un comando activo)
+	int				in_cmd; // aun por ver!
 	int				exit_code;
 	bool			reset;
-} t_mshell; // t_tools;
+}	t_mshell;
 
 typedef struct s_parser
 {
 	char			**str;
-	int (*builtins)(t_mshell *, struct s_parser *); // Es un puntero a la funcion builtin que tiene 2 argumentos: Un puntero a t_mshell y Un puntero a t_parser
+	int				(*builtins)(t_mshell *, struct s_parser *);
 	bool			flag;
 	int				num_redirections;
 	char			*hd_file_name;
@@ -81,7 +80,7 @@ typedef struct s_parser
 	t_lexer			*redirections;
 	struct s_parser	*next;
 	struct s_parser	*prev;
-} t_parser; // t_simple_cmds;
+}	t_parser;
 
 /****INITIALIZATION****/
 
@@ -95,8 +94,8 @@ int					init_data(t_mshell *data);
 int					reset_data(t_mshell *data);
 /*-Signals-*/
 void				init_signals(void);
-void				handle_ctrl_backslash(int sig); // Chequear si se necesita por fuera
-void				handle_ctrl_c(int sig);         // Chequear si se necesita por fuera
+void				handle_ctrl_backslash(int sig);
+void				handle_ctrl_c(int sig);
 void				handle_ctrl_c_child(int sig);
 
 /*******LEXER*******/
@@ -128,7 +127,8 @@ void				parser(t_mshell *minishell);
 t_parser			*parser_new_node(t_mshell *minishell);
 void				parser_add_last(t_parser **head, t_parser *new);
 void				ft_delnode(t_lexer *temp, t_lexer **head);
-int					(*builtins_handler(char *str))(t_mshell *minishell, t_parser *commands);
+int					(*builtins_handler(char *str))(t_mshell *minishell,
+						t_parser *commands);
 char				*expand_builtin(t_mshell *data, const char *str);
 char				**expander_builtins(t_mshell *data, char **str);
 
@@ -141,26 +141,24 @@ void				free_parser_list(t_parser *list);
 /*******BUILTINS*******/
 
 void				free_minishell(t_mshell *minishell);
-int	mini_echo(t_mshell *minishell, t_parser *commands);   // no memory leaks
-int	mini_exit(t_mshell *minishell, t_parser *commands);   // no memory leaks
-int	mini_env(t_mshell *minishell, t_parser *commands);    // no memory leaks
-int	mini_pwd(t_mshell *minishell, t_parser *commands);    // no memory leaks
-int	mini_cd(t_mshell *minishell, t_parser *commands);     // no memory leaks
-int	mini_export(t_mshell *minishell, t_parser *commands); // no memory leaks
-int	mini_unset(t_mshell *minishell, t_parser *commands);
-		// me costo un huevo pero no memory leaks
-
+int					mini_echo(t_mshell *minishell, t_parser *commands);
+int					mini_exit(t_mshell *minishell, t_parser *commands);
+int					mini_env(t_mshell *minishell, t_parser *commands);
+int					mini_pwd(t_mshell *minishell, t_parser *commands);
+int					mini_cd(t_mshell *minishell, t_parser *commands);
+int					mini_export(t_mshell *minishell, t_parser *commands);
+int					mini_unset(t_mshell *minishell, t_parser *commands);
 /*-Utils-*/
-
 void				ft_commands_clear(t_parser **lst);
 void				print_array(char **array, int i);
 char				**new_array(char **array, char *str);
 char				*delete_quotes(char *str, t_mshell *minishell);
+void				change_envp(t_mshell *minishell);
+void				change_pwd(t_mshell *minishell);
 
 /*******EXPANDER*******/
 
 void				expander(t_mshell *data, char **str, bool *flag);
-void				expander_redirection(t_mshell *data, char *str, bool *flag);
 char				*expand_str(t_mshell *data, char *str, bool *flag);
 char				*expand_double_quote(t_mshell *data, char *str);
 /*-Variables-*/
@@ -174,24 +172,23 @@ char				*expand_variable_helper(t_mshell *data, char *str,
 						bool *flag);
 int					append_expanded(t_mshell *data, char *str, int *i,
 						char *result);
+int					handle_sing_quote(t_mshell *data, char *str, int *i,
+						char *result);
 
 /*******EXECUTOR*******/
 
 int					executor(t_mshell *data);
 void				execute_single_cmd(t_parser *cmd, t_mshell *data);
-// t_parser	*call_expander(t_mshell *data, t_parser *cmd);
 /*-Single Command Execution-*/
 int					find_command(t_parser *cmd, t_mshell *data);
 int					check_redirections(t_parser *cmd);
 int					check_infile(char *file);
 int					check_outfile(t_lexer *redirections);
 /*-Single Command Utils-*/
-// int			is_main_process_builtin(int (*builtin)(t_mshell *, t_parser *));
 void				wait_for_child(t_mshell *data, int pid);
 char				**normalize_str_array(char **array, t_mshell *data);
 char				*make_single_str(char **array, t_mshell *data);
 int					check_append_outfile(t_lexer *redirections);
-
 /*-Single Command Pipe-*/
 int					get_fd(t_mshell *minishell, int end[2], t_parser *commands);
 int					wait_childspid(t_mshell *minishell, int *array);
@@ -204,7 +201,8 @@ int					ft_less(t_mshell *minishell, char *input);
 int					ft_great(t_parser *commands, t_mshell *minishell);
 void				execute_command(t_mshell *minishell, t_parser *commands);
 
-/*-Heredoc-*/
+/*******HEREDOC*******/
+
 char				*generate_name(void);
 int					ft_heredoc(t_parser *commands, t_mshell *minishell);
 
@@ -213,12 +211,9 @@ int					ft_heredoc(t_parser *commands, t_mshell *minishell);
 int					handle_error(t_mshell *data, int error);
 int					handle_error2(t_mshell *data, int error, char *str,
 						char **array);
-int					handle_error3(t_mshell *data, int error, char *str);
 
 
 /*******MAIN*******/
 int					minishell(t_mshell *data);
-
-void	lala(int sig); //borrar
 
 #endif

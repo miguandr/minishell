@@ -40,7 +40,6 @@ SRC			=	$(SRC_DIR)/executor/executor.c \
 				$(SRC_DIR)/lexer/lexer_quotes.c \
 				$(SRC_DIR)/lexer/lexer_tokens.c \
 				$(SRC_DIR)/lexer/lexer_utils_1.c \
-				$(SRC_DIR)/lexer/lexer_utils_2.c \
 				$(SRC_DIR)/parser/parser.c \
 				$(SRC_DIR)/parser/parser_utils_1.c \
 				$(SRC_DIR)/parser/parser_utils_2.c \

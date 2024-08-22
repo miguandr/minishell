@@ -6,30 +6,24 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:47:10 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:14:39 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	handle_sing_quote(t_mshell *data, char *str, int *i, char *result)
-{
-	int	result_len;
-
-	result_len = 0;
-	result[result_len++] = str[(*i)++];
-	while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
-	{
-		if (str[*i] == '$' && str[*i + 1] != '\0')
-			result_len += append_expanded(data, str, i, result + result_len);
-		else
-			result[result_len++] = str[(*i)++];
-	}
-	if (str[*i] == '\'')
-		result[result_len++] = str[(*i)++];
-	return (result_len);
-}
-
+/**
+ * Handles the expansion of the shell's exit code within a string.
+ * @data: Pointer to the t_mshell structure containing shell state.
+ * @str: The input string containing the exit code reference.
+ * @i: Pointer to the current index in the string, updated during processing.
+ * @result: The output buffer where the expanded exit code is stored.
+ *
+ * This function converts the shell's exit code to a string and appends it to
+ * the result buffer.
+ * It skips past the exit code reference in the input string.
+ * Returns the length of the expanded exit code string.
+ */
 int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
 {
 	char	*exit_code;
@@ -48,6 +42,19 @@ int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
 	return (result_len);
 }
 
+/**
+ * Handles the processing of a double-quoted string segment,
+ * expanding variables within it.
+ * @data: Pointer to the t_mshell structure containing shell state.
+ * @str: The input string containing the segment.
+ * @i: Pointer to the current index in the string, updated during processing.
+ * @result: The output buffer where the processed segment is stored.
+ *
+ * This function processes characters within double quotes, expanding variables
+ * and handling embedded single quotes.
+ * It appends the processed characters to the result buffer.
+ * Returns the length of the processed segment.
+ */
 static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 {
 	int	result_len;
@@ -69,6 +76,16 @@ static int	handle_double_quote(t_mshell *data, char *str, int *i, char *result)
 	return (result_len);
 }
 
+/**
+ * Expands variables and quotes within a double-quoted string.
+ * @data: Pointer to the t_mshell structure containing shell state.
+ * @str: The input string containing double-quoted segments.
+ *
+ * This function iterates through the input string, processing and expanding
+ * any double-quoted segments.
+ * It handles variable expansion and returns the fully expanded string.
+ * Returns the expanded string.
+ */
 char	*expand_double_quote(t_mshell *data, char *str)
 {
 	char	*result;
@@ -98,6 +115,16 @@ char	*expand_double_quote(t_mshell *data, char *str)
 	return (result);
 }
 
+/**
+ * Expands variables and removes quotes within a string.
+ * @data: Pointer to the t_mshell structure containing shell state.
+ * @str: The input string to be expanded.
+ * @flag: Pointer to a boolean flag used to indicate if a variable was expanded.
+ *
+ * This function checks for the presence of quotes or variables in the string
+ * and processes them accordingly.
+ * Returns the expanded string.
+ */
 char	*expand_str(t_mshell *data, char *str, bool *flag)
 {
 	if (ft_strchr(str, '\"') != NULL && str[0] != '\'')
@@ -109,6 +136,16 @@ char	*expand_str(t_mshell *data, char *str, bool *flag)
 	return (str);
 }
 
+/**
+ * Expands all strings in an array by processing quotes and variables.
+ * @data: Pointer to the t_mshell structure containing shell state.
+ * @str: Array of strings to be expanded.
+ * @flag: Pointer to a boolean flag used to indicate if a variable was expanded.
+ *
+ * This function iterates through the array of strings, expanding each one by
+ * processing embedded quotes and variables.
+ * The original strings are freed and replaced with their expanded versions.
+ */
 void	expander(t_mshell *data, char **str, bool *flag)
 {
 	char	*expanded_str;
@@ -125,22 +162,4 @@ void	expander(t_mshell *data, char **str, bool *flag)
 		}
 		i++;
 	}
-}
-
-void	expander_redirection(t_mshell *data, char *str, bool *flag)
-{
-	char	*expanded_str;
-	//int		i;
-
-	//i = 0;
-	//while (str[i] != NULL)
-	//{
-		expanded_str = expand_str(data, str, flag);
-		if (expanded_str != str)
-		{
-			free(str);
-			str = expanded_str;
-		}
-		//i++;
-	//}
 }

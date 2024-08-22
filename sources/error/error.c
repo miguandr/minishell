@@ -6,12 +6,21 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:19:08 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 20:55:44 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/22 22:01:00 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+ * Handles various types of errors by printing appropriate error messages.
+ * @data: Pointer to the minishell structure (unused in this function).
+ * @error: Error code indicating the type of error.
+ *
+ * This function prints an error message based on the error code. It sets
+ * the exit code in the minishell structure according to the type of error
+ * and resets the minishell data if necessary.
+ */
 int	handle_error(t_mshell *data, int error)
 {
 	const char	*message;
@@ -38,6 +47,17 @@ int	handle_error(t_mshell *data, int error)
 	return (EXIT_FAILURE);
 }
 
+/**
+ * Handles specific error cases with additional information.
+ * @data: Pointer to the minishell structure (unused in this function).
+ * @error: Error code indicating the type of error.
+ * @str: Additional information to include in the error message.
+ * @array: Array of strings for error details.
+ *
+ * This function prints specific error messages based on the error code. It
+ * provides additional context depending on the error, such as invalid
+ * identifiers or event not found errors.
+ */
 int	handle_error2(t_mshell *data, int error, char *str, char **array)
 {
 	(void)data;
