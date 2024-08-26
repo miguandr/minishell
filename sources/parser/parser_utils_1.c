@@ -12,6 +12,45 @@
 
 #include "../../includes/minishell.h"
 
+static bool	is_quoted(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	handle_redirection(t_lexer *redirections)
+{
+	t_lexer	*current;
+	int		i;
+	int		j;
+
+	current = redirections;
+	while (current)
+	{
+		if (is_quoted(current->str))
+		{
+			i = 0;
+			j = 0;
+			while (current->str[i])
+			{
+				if (current->str[i] != '\"' && current->str[i] != '\'')
+					current->str[j++] = current->str[i];
+				i++;
+			}
+			current->str[j] = '\0';
+		}
+		current = current->next;
+	}
+}
+
 t_parser	*parser_new_node(t_mshell *minishell)
 {
 	t_parser	*new_node;

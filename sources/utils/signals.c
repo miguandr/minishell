@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 18:31:02 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 21:28:05 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/26 21:23:46 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	handle_ctrl_backslash(int sig)
 {
 	(void)sig;
 	rl_replace_line("", 0);
+	ft_putendl_fd("Quit (core dumped)", 2);
 	rl_on_new_line();
 }
 

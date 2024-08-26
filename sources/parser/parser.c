@@ -12,45 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-static bool	is_quoted(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-void	handle_redirection(t_lexer *redirections)
-{
-	t_lexer	*current;
-	int		i;
-	int		j;
-
-	current = redirections;
-	while (current)
-	{
-		if (is_quoted(current->str))
-		{
-			i = 0;
-			j = 0;
-			while (current->str[i])
-			{
-				if (current->str[i] != '\"' && current->str[i] != '\'')
-					current->str[j++] = current->str[i];
-				i++;
-			}
-			current->str[j] = '\0';
-		}
-		current = current->next;
-	}
-}
-
 //Counts the amount of argument of WORD tokens before the PIPE
 //There should not be more redirections.
 //If a non-WORD token is encountered, handles the error and returns.
@@ -160,12 +121,4 @@ void	parser(t_mshell *minishell)
 			ft_delnode(current->lexer_list, &minishell->lexer_list);
 		}
 	}
-	/*************FREES**********************/
-	//no hay que ponerlo ahora, es solo a fin de chequeo de leaks
-	//free_parser_list(minishell->commands);
-	// if(minishell->envp)
-	//     free_string_array(minishell->envp);
-	//free(minishell);
-	//free_string_array MIGUE YA TIENE ESTA FUNCION EN LIBFT
-	//cambiar luego por ft_free_array
 }

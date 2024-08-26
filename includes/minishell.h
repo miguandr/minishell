@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:29:16 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:50:01 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:42:04 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int					(*builtins_handler(char *str))(t_mshell *minishell,
 						t_parser *commands);
 char				*expand_builtin(t_mshell *data, const char *str);
 char				**expander_builtins(t_mshell *data, char **str);
+void				handle_redirection(t_lexer *redirections);
 
 /*******FREE*******/
 

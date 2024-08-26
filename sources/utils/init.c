@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 21:10:52 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:46:41 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:54:00 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	init_data(t_mshell *data)
 	data->reset = false;
 	data->pid = NULL;
 	data->pipes = 0;
-	//data->in_cmd = 0;
 	handle_envp(data);
 	init_signals();
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:36:17 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:50:45 by dtorrett         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:40:53 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	check_heredoc(t_mshell *minishell, t_parser *commands)
 			if (commands->hd_file_name)
 				free(commands->hd_file_name);
 			commands->hd_file_name = generate_name();
-			minishell->exit_code = ft_heredoc(commands, minishell); //si se ejecuta bien exit_code tendra valor 0, esta bien que almacene codigos de exito?
-			commands->heredoc = true; //para que lo usamos????
+			minishell->exit_code = ft_heredoc(commands, minishell);
+			commands->heredoc = true;
 		}
 		if (commands->redirections->next)
 			commands->redirections = commands->redirections->next;
@@ -40,7 +40,7 @@ void	execute_single_cmd(t_parser *cmd, t_mshell *data)
 	pid_t	pid;
 	int		status;
 
-	if (cmd && cmd->builtins && (cmd->builtins == mini_cd 
+	if (cmd && cmd->builtins && (cmd->builtins == mini_cd
 			|| cmd->builtins == mini_exit || cmd->builtins == mini_export
 			|| cmd->builtins == mini_unset))
 	{
@@ -90,12 +90,15 @@ int	execute_pipe_cmd(t_mshell *minishell)
 			fd_prev = STDIN_FILENO;
 		temp_commands = temp_commands->next;
 	}
-	wait_childspid(minishell, minishell->pid);
-	return (EXIT_SUCCESS);
+	return (wait_childspid(minishell, minishell->pid), EXIT_SUCCESS);
 }
 
-//data->pipes + 1 = cfubre todos los procesos mientras que el +1 adicional es comúnmente utilizado para guardar un valor extra. Puede ser para propósitos de seguridad, alineación de memoria, o para almacenar un valor especial (como un PID extra o un valor sentinela).
-//data->pid sera un array de enteros para los pid de cada proceso + 1 espacio extra
+//data->pipes + 1 = cfubre todos los procesos mientras que el +1 adicional es
+//comúnmente utilizado para guardar un valor extra. Puede ser para propósitos
+//de seguridad, alineación de memoria, o para almacenar un valor especial
+//(como un PID extra o un valor sentinela).
+//data->pid sera un array de enteros para los pid de cada proceso + 1
+//espacio extra
 int	executor(t_mshell *data)
 {
 	signal(SIGINT, handle_ctrl_c_child);

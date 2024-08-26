@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 14:43:09 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/26 17:50:51 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:27:40 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,30 @@ int	tokenizer(t_mshell *data)
 }
 
 /**
+ * Cleans up resources associated with the minishell session.
+ * @data: Pointer to the mshell structure containing various resources.
+ *
+ * This function releases dynamically allocated memory associated with the
+ * minishell session. It frees memory for environment variables, current and
+ * previous working directories, search paths, and any remaining arguments.
+ * The function ensures that no memory leaks occur by properly deallocating
+ * all allocated resources before the minishell exits or when Ctrl+D is
+ * encountered.
+ */
+static void	clean_ctrl_d(t_mshell *data)
+{
+	free_string_array(data->envp);
+	if (data->pwd)
+		free(data->pwd);
+	if (data->old_pwd)
+		free(data->old_pwd);
+	if (data->paths)
+		free_string_array(data->paths);
+	if (data->args)
+		free(data->args);
+}
+
+/**
  * Reads user input, processes it, and tokenizes it for the minishell session.
  * @data: Pointer to the mshell structure containing arguments and lexer list.
  *
@@ -68,6 +92,7 @@ int	lexer(t_mshell *data)
 	if (!data->args)
 	{
 		ft_putendl_fd("exit", 1);
+		clean_ctrl_d(data);
 		exit(EXIT_SUCCESS);
 	}
 	if (*data->args == '\0')

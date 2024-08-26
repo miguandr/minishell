@@ -30,6 +30,7 @@ static int	check_coincidence(t_mshell *data, int i, char *name, char *add_var)
 	{
 		free(data->envp[i]);
 		data->envp[i] = add_var;
+		free(name);
 		return (0);
 	}
 	return (1);
@@ -148,16 +149,12 @@ int	mini_export(t_mshell *minishell, t_parser *commands)
 		while (minishell->envp[++i])
 		{
 			if (check_coincidence(minishell, i, var_name, add_var) == 0)
-			{
-				//free(add_var);
 				return (EXIT_SUCCESS);
-			}
 		}
 		temp = new_array(minishell->envp, add_var);
 		free_string_array(minishell->envp);
 		minishell->envp = temp;
 		free(var_name);
-		//free(add_var);//ver
 	}
 	return (EXIT_SUCCESS);
 }
