@@ -94,7 +94,7 @@ static char	**built_args(t_mshell *minishell, int i, bool *flag)
 	}
 	while (i < arguments)
 	{
-		arg_array[i] = strdup(current->str);
+		arg_array[i] = ft_strdup(current->str);
 		next_node = current->next;
 		ft_delnode(current, &minishell->lexer_list);
 		i++;

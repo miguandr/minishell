@@ -19,9 +19,9 @@
  * @name: The name of the environment variable to check for.
  * @add_var: The new value to assign if a match is found.
  *
- * This function compares the given name with the environment variable at 
- * the specified index. If a match is found, the current variable is 
- * replaced with the new value and the old value is freed. 
+ * This function compares the given name with the environment variable at
+ * the specified index. If a match is found, the current variable is
+ * replaced with the new value and the old value is freed.
  * Returns 0 if a match is found and updated, otherwise returns 1.
  */
 static int	check_coincidence(t_mshell *data, int i, char *name, char *add_var)
@@ -39,7 +39,7 @@ static int	check_coincidence(t_mshell *data, int i, char *name, char *add_var)
  * Verifies if a character is valid as part of a variable identifier in Bash.
  * @c: The character to validate.
  *
- * This function checks whether the given character is a valid part of a 
+ * This function checks whether the given character is a valid part of a
  * Bash variable identifier, which includes letters, digits, and underscores.
  * Returns true if the character is valid, otherwise returns false.
  */
@@ -57,9 +57,9 @@ static bool	check_valid_identifier(char c)
  * @var_name: ptr to a string where the variable name will be stored w/o quotes.
  * @minishell: Pointer to the minishell data structure.
  *
- * This function removes quotes from the input string. If an '=' character 
- * is found, the function extracts the variable name before the '=' and 
- * removes quotes from it, storing the result in var_name. The entire 
+ * This function removes quotes from the input string. If an '=' character
+ * is found, the function extracts the variable name before the '=' and
+ * removes quotes from it, storing the result in var_name. The entire
  * string without quotes is returned.
  * Returns the processed string without quotes.
  */
@@ -88,9 +88,9 @@ static char	*check_quotes(char *str, char **var_name, t_mshell *minishell)
 }
 
 /**
- * This function checks for errors in the export command by validating 
- * the first character of the argument and ensuring all characters before 
- * the '=' are valid as part of a variable identifier. If an error is found, 
+ * This function checks for errors in the export command by validating
+ * the first character of the argument and ensuring all characters before
+ * the '=' are valid as part of a variable identifier. If an error is found,
  * it calls handle_error2 with the appropriate error code.
  * Returns EXIT_SUCCESS if no errors are found, otherwise returns EXIT_FAILURE.
  */
@@ -123,10 +123,10 @@ static int	error_check(t_mshell *data, t_parser *commands)
 /**
  * Implements the export command, which sets or updates environment variables.
  *
- * It first checks for errors in the variable name or definition. 
+ * It first checks for errors in the variable name or definition.
  * If no errors are found, it removes quotes from the variable name and value,
- * checks if the variable already exists, and updates it if so. 
- * If the variable does not exist, it creates a new environment array 
+ * checks if the variable already exists, and updates it if so.
+ * If the variable does not exist, it creates a new environment array
  * with the new variable.
  * Returns EXIT_SUCCESS on success, or EXIT_FAILURE on failure.
  */
@@ -148,12 +148,16 @@ int	mini_export(t_mshell *minishell, t_parser *commands)
 		while (minishell->envp[++i])
 		{
 			if (check_coincidence(minishell, i, var_name, add_var) == 0)
+			{
+				//free(add_var);
 				return (EXIT_SUCCESS);
+			}
 		}
 		temp = new_array(minishell->envp, add_var);
 		free_string_array(minishell->envp);
 		minishell->envp = temp;
 		free(var_name);
+		//free(add_var);//ver
 	}
 	return (EXIT_SUCCESS);
 }

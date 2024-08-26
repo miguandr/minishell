@@ -6,7 +6,7 @@
 /*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:10:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:03:17 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/26 17:56:47 by miguandr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	handle_envp(t_mshell *data)
 		{
 			temp = ft_strjoin(data->paths[i], (char const *) '/');
 			free(data->paths[i]);
-			data->paths = &temp;
+			data->paths[i] = temp;
 		}
 		i++;
 	}
