@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:36:17 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/26 23:40:53 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/31 13:00:36 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	check_heredoc(t_mshell *minishell, t_parser *commands)
 	commands->redirections = head;
 }
 
-void	execute_single_cmd(t_parser *cmd, t_mshell *data)
+static void	execute_single_cmd(t_parser *cmd, t_mshell *data)
 {
 	pid_t	pid;
 	int		status;
@@ -58,12 +58,22 @@ void	execute_single_cmd(t_parser *cmd, t_mshell *data)
 		data->exit_code = WEXITSTATUS(status);
 }
 
+static int	create_pipe_if_needed(t_parser *command, int fd[2])
+{
+	if (command->next)
+	{
+		if (pipe(fd) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
 //If there are multiple commands, creates a pipe to connect current and next.
 //Every time communication between two processes is needed using a pipe:
 // - Declare an array of two int to store the read and write ends of the pipe.
 // - Use the pipe() function to initialize the pipe.
 //If there is a PIPE token, spawns a child process.
-int	execute_pipe_cmd(t_mshell *minishell)
+static int	execute_pipe_cmd(t_mshell *minishell)
 {
 	int			fd[2];
 	int			fd_prev;
@@ -73,11 +83,8 @@ int	execute_pipe_cmd(t_mshell *minishell)
 	fd_prev = STDIN_FILENO;
 	while (temp_commands)
 	{
-		if (temp_commands->next)
-		{
-			if (pipe(fd) == -1)
-				return (handle_error(minishell, 7));
-		}
+		if (create_pipe_if_needed(temp_commands, fd) != 0)
+			return (handle_error(minishell, 7));
 		check_heredoc(minishell, temp_commands);
 		ft_fork(minishell, temp_commands, fd, fd_prev);
 		if (temp_commands->next)

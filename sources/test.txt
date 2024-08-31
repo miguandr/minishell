@@ -1,8 +1,0 @@
-1(Simple Command) /bin/ls || /bin/pwd || /bin/date || /bin/id || /bin/echo "Hello, World!"
-2(Redirection) echo "Hello, World!" > test.txt || cat < test.txt || echo "Hello, World!" >> test.txt || cat << lim
-3(Arguments) /bin/ls -l || /bin/ls -a || /bin/date -u || /bin/cat test.txt || /bin/head -n 5 test.txt
-4(Environment path) ls -l || wc -l test.txt || awk '/8/' test.txt
-5(Pipes) ls -l | wc -l || pwd | cat || ls -l | grep "^-rw" | wc -l || ls -l | grep "^-rw" > rw_files.txt || ls filethatdoesntexist | grep bla | wc -l
-6(Single quote) try env var... echo 'cat | grep something' || echo 'ls | wc -l > count.txt' || word word
-7(Exit code) /bin/ls || /bin/ls filethatdoesntexist || $? + $? || echo $? + $? || echo "hello world" || cat < filedontexist.txt || echo $?
-8(Relative Path) ls, cat, wc -l, 

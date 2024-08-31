@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_single_utils.c                            :+:      :+:    :+:   */
+/*   executor_single.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 19:50:18 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/26 23:16:47 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/31 13:25:29 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*make_single_str(char **array, t_mshell *data)
+static char	*make_single_str(char **array, t_mshell *data)
 {
 	char	*result;
 	int		total_len;
@@ -37,7 +37,7 @@ char	*make_single_str(char **array, t_mshell *data)
 	return (result);
 }
 
-char	**normalize_str_array(char **array, t_mshell *data)
+static char	**normalize_str_array(char **array, t_mshell *data)
 {
 	char	*joined_str;
 	char	**updated_array;
@@ -54,7 +54,8 @@ char	**normalize_str_array(char **array, t_mshell *data)
 // If the command is a directory, it prints an error and exits with code 126.
 // If the command is successfully executed, the function exits with code 0.
 // In the case of a special variable like `$`, it handles it accordingly.
-void	execute_command_in_path(int i, char *temp, char **array, t_mshell *data)
+static void	execute_command_in_path(int i, char *temp,
+			char **array, t_mshell *data)
 {
 	char	*updated_command;
 
@@ -85,7 +86,7 @@ void	execute_command_in_path(int i, char *temp, char **array, t_mshell *data)
 
 //Checks if PATH is set. If so, i = -42 and stops searching.
 //it is helpfull for the cases when PATH is unset, cause "ls" should not work.
-int	check_path_exist(t_mshell *data)
+static int	check_path_exist(t_mshell *data)
 {
 	int	i;
 

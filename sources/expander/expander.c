@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 16:58:50 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:14:39 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:54:27 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * It skips past the exit code reference in the input string.
  * Returns the length of the expanded exit code string.
  */
-int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
+static int	handle_exit_code(t_mshell *data, char *str, int *i, char *result)
 {
 	char	*exit_code;
 	int		result_len;

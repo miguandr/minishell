@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 19:27:45 by miguandr          #+#    #+#             */
-/*   Updated: 2024/08/22 22:18:49 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/31 13:24:37 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char	*generate_name(void)
 
 /**
  * Expands variables in a heredoc input string.
- * @data: Pointer to the minishell structure containing environment variables.
+ * @data: Pointer to the minishell structure containing environment
+ * variables.
  * @str: The heredoc input string with potential variables.
  * @result: Buffer where the expanded result is stored.
  * @result_len: Current length of the result buffer.
@@ -42,7 +43,8 @@ char	*generate_name(void)
  * This function searches for variables in the heredoc input string starting
  * with a '$' and replaces them with their corresponding values from the
  * environment. It updates the result buffer with the expanded value and
- * returns the length of the variable name plus one for the '$' character.
+ * returns the length of the variable name plusgenerate_name one for the '$'
+ * character.
  */
 static int	exp_var_hd(t_mshell *data, char *str, char *result, int result_len)
 {

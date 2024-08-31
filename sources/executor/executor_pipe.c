@@ -33,7 +33,8 @@ void	execute_command(t_mshell *minishell, t_parser *commands)
 //Close(fd[0]) to close the read end of the pipe.
 //Close(fd[1]) to close the write end of the pipe.
 //Ends the child process and go back to the parent process
-int	child_process(t_mshell *data, t_parser *commands, int fd[2], int fd_prev)
+static int	child_process(t_mshell *data, t_parser *commands,
+			int fd[2], int fd_prev)
 {
 	if (commands->prev && dup2(fd_prev, STDIN_FILENO) < 0)
 		return (handle_error(data, 7));
@@ -86,26 +87,4 @@ int	wait_childspid(t_mshell *minishell, int *array)
 	if (WIFEXITED(status))
 		minishell->exit_code = WEXITSTATUS(status);
 	return (EXIT_SUCCESS);
-}
-
-// Determines where the child process should read its standard input (STDIN)
-//from before executing a command.
-// If a heredoc is specified, it opens the heredoc file for reading
-//and returns its file descriptor.
-// If no heredoc is used, it returns the read end of the pipe (end[0]).
-// In case of an error, it handles the error and returns an error code.
-int	get_fd(t_mshell *minishell, int end[2], t_parser *commands)
-{
-	int	fd;
-
-	if (commands->heredoc)
-	{
-		close(end[0]);
-		fd = open(commands->hd_file_name, O_RDONLY);
-		if (fd < 0)
-			return (handle_error(minishell, 7));
-	}
-	else
-		fd = end[0];
-	return (fd);
 }

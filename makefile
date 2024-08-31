@@ -66,7 +66,6 @@ SRC			=	$(SRC_DIR)/executor/executor.c \
 # Object files
 OBJ_DIR = obj/
 OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
-#OBJ = $(SRC:.c=.o)
 
 # Build rules
 all:			$(LIBFT) $(NAME)
@@ -83,26 +82,34 @@ $(LIBFT):
 $(NAME):		$(OBJ)
 				@echo "Compiling Minishell..."
 				@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(LDFLAGS) $(LINKS)
-				@echo "Minishell ready."
+				@echo "\n------------------------------------------\n"
+				@echo "📟 Minishell ready!\n"
+				@echo "------------------------------------------\n"
 
 clean_minishell:
 				@echo "Removing Minishell object files..."
 				@rm -rf $(OBJ_DIR)
 
 clean_libft:
-				@make clean -C $(LIBFT_DIR)
+				@make -s clean -C $(LIBFT_DIR)
 
 clean:			clean_minishell clean_libft
+				@echo "\n------------------------------------------\n"
+				@echo "💧 Clean done! \n"
+				@echo "------------------------------------------\n"
 
 fclean_minishell: clean_minishell
 				@echo "Removing Minishell..."
 				@rm -f $(NAME)
 
 fclean:			fclean_minishell
-				@make fclean -C $(LIBFT_DIR)
+				@make -s fclean -C $(LIBFT_DIR)
+				@echo "\n------------------------------------------\n"
+				@echo "🧼 Fclean done!\n"
+				@echo "------------------------------------------\n"
 
 re:				fclean all
 
 # Phony targets represent actions not files
-.PHONY: all clean fclean re
+.PHONY: all clean clean_minishell clean_libft fclean fclean_minishell re
 

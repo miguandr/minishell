@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_pipes_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguandr <miguandr@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: dtorrett <dtorrett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:22:42 by dtorrett          #+#    #+#             */
-/*   Updated: 2024/08/26 23:29:53 by miguandr         ###   ########.fr       */
+/*   Updated: 2024/08/31 13:03:22 by dtorrett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // not replacing existing content.
 //0644 is the file mode that gives read and write permissions to the owner,
 // and read-only permissions to the group and others.
-int	ft_great(t_parser *commands, t_mshell *minishell)
+static int	ft_great(t_parser *commands, t_mshell *minishell)
 {
 	char	*output;
 	int		file;
@@ -39,7 +39,7 @@ int	ft_great(t_parser *commands, t_mshell *minishell)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_less(t_mshell *minishell, char *input)
+static int	ft_less(t_mshell *minishell, char *input)
 {
 	int	file;
 

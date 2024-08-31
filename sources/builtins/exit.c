@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	free_minishell(t_mshell *minishell)
+static void	free_minishell(t_mshell *minishell)
 {
 	free_lexer_list(minishell->commands->redirections);
 	free_parser_list(minishell->commands);
