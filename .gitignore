@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+minishell
+obj/
+*.o
+*.a
+
+# Libft build artifacts
+libft/obj/
+libft/libft.a
+
+# Debug / test files
+*.txt
+valgrind.txt
+errors.txt
+minishell_tester
+
+# Heredoc temp files
+/tmp/heredoc_*
