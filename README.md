@@ -48,7 +48,7 @@ sudo apt-get install libreadline-dev
 
 ```bash
 # Clone and build
-git clone <repo-url>
+git clone https://github.com/miguandr/minishell.git
 cd minishell
 make
 
